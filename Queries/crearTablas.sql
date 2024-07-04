@@ -189,19 +189,7 @@ CREATE TABLE Productos(
     ON UPDATE CASCADE
 )
 
-CREATE TABLE ActividadRequiereProducto (
-    CodS INT,
-    CodAct INT,
-    CodP INT,
-    Cantidad INT NOT NULL CHECK (Cantidad > 0),
-    PRIMARY KEY (CodS, CodAct, CodP),
-    FOREIGN KEY (CodS, CodAct) REFERENCES Actividades(CodServicio, CodActividad)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    FOREIGN KEY (CodP) REFERENCES Productos(CodProducto)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-)
+
 
 -- Creacion de la Tabla Requisiciones 
 CREATE TABLE Requisiciones(
@@ -300,6 +288,20 @@ CREATE TABLE Actividades(
     ON UPDATE CASCADE,
     FOREIGN KEY (CodMantenimiento) REFERENCES Mantenimientos(CodMantenimiento)
     ON DELETE NO ACTION
+    ON UPDATE CASCADE
+)
+
+CREATE TABLE ActividadRequiereProducto (
+    CodS INT,
+    CodAct INT,
+    CodP INT,
+    Cantidad INT NOT NULL CHECK (Cantidad > 0),
+    PRIMARY KEY (CodS, CodAct, CodP),
+    FOREIGN KEY (CodS, CodAct) REFERENCES Actividades(CodServicio, CodActividad)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (CodP) REFERENCES Productos(CodProducto)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 )
 
