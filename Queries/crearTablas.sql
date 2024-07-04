@@ -6,7 +6,7 @@ CREATE TABLE Multiservicios(
     RIF INT,
     Nombre VARCHAR(25) NOT NULL,
     Ciudad VARCHAR(30) NOT NULL, -- Eliminar el atributo especializacion del diagrama
-    CIEncargado INT NOT NULL,
+    CIEncargado INT NOT NULL UNIQUE, -- CIEncargado es una FK de la tabla Personal por lo que se pone como clave candidata
     PRIMARY KEY (RIF)
 )
 
