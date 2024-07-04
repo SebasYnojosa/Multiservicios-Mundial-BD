@@ -17,7 +17,7 @@ CREATE TABLE Encargados(
     FInicioEncargado DATE NOT NULL,
     PRIMARY KEY (CIEncargado),
     FOREIGN KEY (CIEncargado) REFERENCES Multiservicios(CIEncargado)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 )
 
@@ -31,7 +31,7 @@ CREATE TABLE Personal(
     RIFMultiServ INT NOT NULL,
     PRIMARY KEY (CI),
     FOREIGN KEY (RIFMultiServ) REFERENCES Multiservicios(RIF)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 )
 
@@ -56,7 +56,7 @@ CREATE TABLE Servicios(
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
     FOREIGN KEY (RIFMultiServ) REFERENCES Multiservicios(RIF)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 )
 
@@ -155,7 +155,7 @@ CREATE TABLE Mantenimientos(
     FechaMant DATE NOT NULL,
     PRIMARY KEY (CodMantenimiento),
     FOREIGN KEY (CodVehiculo) REFERENCES Vehiculos(CodVehiculo)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 )
 
@@ -267,7 +267,7 @@ CREATE TABLE Actividades(
     CodMantenimiento INT NOT NULL,
     PRIMARY KEY (CodServicio, CodActividad),
     FOREIGN KEY (CodServicio) REFERENCES Servicios(CodServicio)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (CodFichaSS) REFERENCES SolicitudServicios(CodFicha)
     ON DELETE NO ACTION
@@ -328,10 +328,10 @@ CREATE TABLE PersonalRealizaServicio(
     CodServicio INT,
     PRIMARY KEY (CIPersona, CodServicio),
     FOREIGN KEY (CIPersona) REFERENCES Personal(CI)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (CodServicio) REFERENCES Servicios(CodServicio)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 )
 
@@ -341,7 +341,7 @@ CREATE TABLE DetalleFacturasServicios(
     MontoDetalle DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (CodF, CodServ),
     FOREIGN KEY (CodF) REFERENCES FacturasServicios(CodFacturaS)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (CodServ) REFERENCES Servicios(CodServicio)
     ON DELETE NO ACTION
@@ -358,10 +358,10 @@ CREATE TABLE ReservaApartaActividad (
     FAnterior DATE NOT NULL,
     PRIMARY KEY (NumReserva, CodS, CodAct),
     FOREIGN KEY (NumReserva) REFERENCES Reservas(NumReserva)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (CodS, CodAct) REFERENCES Actividades(CodServicio, CodActividad)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 )
 
@@ -376,10 +376,10 @@ CREATE TABLE ActividadPorSolicitud (
     Costo DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (CodFicha, CodS, CodAct),
     FOREIGN KEY (CodFicha) REFERENCES SolicitudServicios(CodFicha)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (CodS, CodAct) REFERENCES Actividades(CodServicio, CodActividad)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 )
 
@@ -393,7 +393,7 @@ CREATE TABLE DetalleFacturaTienda (
     PrecioT DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (CodF, CodP),
     FOREIGN KEY (CodF) REFERENCES FacturasTiendas(CodFacturaT)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (CodP) REFERENCES Productos(CodProducto)
     ON DELETE NO ACTION
@@ -410,10 +410,10 @@ CREATE TABLE ProductoUsadoActividad (
     Costo DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (CodS, CodAct, CodP),
     FOREIGN KEY (CodS, CodAct) REFERENCES Actividades(CodServicio, CodActividad)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (CodP) REFERENCES Productos(CodProducto)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 )    
 
@@ -474,7 +474,7 @@ CREATE TABLE LineaSumPorProveedor (
     CodLinea INT,
     PRIMARY KEY (RIFProveedor, CodLinea),
     FOREIGN KEY (RIFProveedor) REFERENCES Proveedores(RIFProveedor)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (CodLinea) REFERENCES LineasSuministros(CodLinea)
     ON DELETE NO ACTION
@@ -494,10 +494,10 @@ CREATE TABLE ProductoPorMultiservicio (
     TipoAjuste CHAR(1) NOT NULL,
     PRIMARY KEY (RIFMult, CodP, FechaAjuste),
     FOREIGN KEY (RIFMult) REFERENCES Multiservicios(RIF)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (CodP) REFERENCES Productos(CodProducto)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 )
 
