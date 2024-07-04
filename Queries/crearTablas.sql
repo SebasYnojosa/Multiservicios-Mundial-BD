@@ -5,8 +5,7 @@ USE MultiserviciosMundial
 CREATE TABLE Multiservicios(
     RIF INT,
     Nombre VARCHAR(25) NOT NULL,
-    Ciudad VARCHAR(30) NOT NULL,
-    Especializacion VARCHAR(20) NOT NULL,
+    Ciudad VARCHAR(30) NOT NULL, -- Eliminar el atributo especializacion del diagrama
     CIEncargado INT NOT NULL,
     PRIMARY KEY (RIF)
 )
@@ -21,13 +20,20 @@ CREATE TABLE Encargados(
     ON UPDATE CASCADE
 )
 
+-- Tabla de tipos de vehiculos
+CREATE TABLE TipoVehiculos(
+    Idtipo INT,
+    DescripcionT VARCHAR(30) NOT NULL DEFAULT 'Vehiculo de pasajeros', -- Tipo Vehiculo = Especializacion Multiservicio
+    PRIMARY KEY (Idtipo)
+)
+
 -- Creacion de la Tabla Personal
 CREATE TABLE Personal(
     CI INT,
     NombreC VARCHAR(100) NOT NULL,
     Direccion VARCHAR(50) NOT NULL,
     Telefono VARCHAR(12) NOT NULL,
-    Salario DECIMAL(10, 2) NOT NULL,
+    Salario DECIMAL(10, 2) NOT NULL CHECK (Salario > 0),
     RIFMultiServ INT NOT NULL,
     PRIMARY KEY (CI),
     FOREIGN KEY (RIFMultiServ) REFERENCES Multiservicios(RIF)
@@ -44,8 +50,8 @@ ON UPDATE CASCADE
 -- Creacion de la Tabla Servicios
 CREATE TABLE Servicios(
     CodServicio INT,
-    DescC VARCHAR(50) NOT NULL,
-    Monto DECIMAL(10, 2) NOT NULL,
+    DescC VARCHAR(200) NOT NULL,
+    Monto DECIMAL(10, 2) NOT NULL CHECK (Monto > 0),
     TiempoAnt TIME NOT NULL,
     CIPersonal INT NOT NULL,
     RIFMultiServ INT NOT NULL,
@@ -64,7 +70,7 @@ CREATE TABLE Servicios(
 CREATE TABLE FacturasServicios(
     CodFacturaS INT,
     FechaE DATE NOT NULL,
-    Monto DECIMAL(10, 2) NOT NULL,
+    Monto DECIMAL(10, 2) NOT NULL CHECK (Monto > 0),
     CodVehiculo INT NOT NULL
     PRIMARY KEY (CodFacturaS)
 )
@@ -79,7 +85,7 @@ ON UPDATE CASCADE
 CREATE TABLE FacturasTiendas(
     CodFacturaT INT,
     FechaE DATE NOT NULL,
-    Monto DECIMAL(10, 2) NOT NULL,
+    Monto DECIMAL(10, 2) NOT NULL CHECK (Monto > 0),
     RIFMultiServ INT NOT NULL,
     PRIMARY KEY (CodFacturaT),
     FOREIGN KEY (RIFMultiServ) REFERENCES Multiservicios(RIF)
@@ -106,9 +112,13 @@ CREATE TABLE Vehiculos(
     FechaAdq DATE NOT NULL,
     CodMarca INT NOT NULL,
     CodModelo INT NOT NULL,
+    Idtipo INT NOT NULL,
     PRIMARY KEY (CodVehiculo),
     FOREIGN KEY (CICliente) REFERENCES Clientes(CI)
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (Idtipo) REFERENCES TipoVehiculos(Idtipo)
+    ON DELETE NO ACTION
     ON UPDATE CASCADE
 )
 
@@ -122,9 +132,10 @@ ON UPDATE CASCADE
 CREATE TABLE Reservas(
     NumReserva INT,
     FechaReserva DATE NOT NULL,
-    MontoAbonado DECIMAL(10, 2) NOT NULL,
-    FechaActRes DATE NOT NULL,
-    PRIMARY KEY (NumReserva)
+    PorcentajeIni DECIMAL(5, 2) NOT NULL CHECK (PorcentajeIni >= 0.20 AND PorcentajeIni <= 0.50),
+    MontoAbonado DECIMAL(10, 2) NOT NULL CHECK (MontoAbonado > 0), -- Debe ser entre un 20% y 50% del monto total
+    FechaActRes DATE NOT NULL,                                     -- Luego el monto abonado se resta al total y eso es
+    PRIMARY KEY (NumReserva)                                       -- Lo que se paga al final
 )
 
 -- Creacion de la Tabla SolicitudServicios
@@ -164,8 +175,8 @@ CREATE TABLE Productos(
     CodProducto INT,
     Nombre VARCHAR(20) NOT NULL,
     Descripcion VARCHAR(50) NOT NULL,
-    Precio DECIMAL(10, 2) NOT NULL,
-    Ecologico CHAR(1) NOT NULL,
+    Precio DECIMAL(10, 2) NOT NULL CHECK (Precio > 0),
+    Ecologico CHAR(1) NOT NULL CHECK (Ecologico IN ('S', 'N')),
     CodFacturaT INT NOT NULL,
     CantidadP INT NOT NULL,
     PrecioT INT NULL,
@@ -175,6 +186,20 @@ CREATE TABLE Productos(
     PRIMARY KEY (CodProducto),
     FOREIGN KEY (CodFacturaT) REFERENCES FacturasTiendas(CodFacturaT)
     ON DELETE NO ACTION
+    ON UPDATE CASCADE
+)
+
+CREATE TABLE ActividadRequiereProducto (
+    CodS INT,
+    CodAct INT,
+    CodP INT,
+    Cantidad INT NOT NULL CHECK (Cantidad > 0),
+    PRIMARY KEY (CodS, CodAct, CodP),
+    FOREIGN KEY (CodS, CodAct) REFERENCES Actividades(CodServicio, CodActividad)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (CodP) REFERENCES Productos(CodProducto)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 )
 
@@ -223,9 +248,9 @@ CREATE TABLE Proveedores(
 CREATE TABLE OrdenesCompras(
     CodOrdenC INT,
     CodReq INT NOT NULL,
-    CantidadComprar INT NOT NULL,
-    PrecioCompra DECIMAL(10, 2) NOT NULL,
-    CantidadEntregada INT NOT NULL,
+    CantidadComprar INT NOT NULL CHECK (CantidadComprar > 0),
+    PrecioCompra DECIMAL(10, 2) NOT NULL CHECK (PrecioCompra > 0),
+    CantidadEntregada INT NOT NULL CHECK (CantidadEntregada > 0),
     RIFProv INT NOT NULL,
     CodFacturaP INT NOT NULL,
     PRIMARY KEY (CodOrdenC),
@@ -241,7 +266,7 @@ CREATE TABLE OrdenesCompras(
 CREATE TABLE FacturasProveedor(
     CodFactura INT,
     FechaE DATE NOT NULL,
-    Monto DECIMAL(10, 2) NOT NULL,
+    Monto DECIMAL(10, 2) NOT NULL CHECK (Monto > 0),
     RIFMultiServ INT NOT NULL,
     PRIMARY KEY (CodFactura),
     FOREIGN KEY (RIFMultiServ) REFERENCES Multiservicios(RIF)
@@ -260,10 +285,11 @@ CREATE TABLE Actividades(
     CodServicio INT,
     CodActividad INT,
     DescA VARCHAR(50) NOT NULL,
-    Costo DECIMAL(10, 2) NOT NULL,
+    Costo DECIMAL(10, 2) NOT NULL CHECK (Costo > 0),
+    TiempoMin DATE NOT NULL,
     CodFichaSS INT,
-    CantA INT NOT NULL,
-    CostoAF INT NOT NULL,
+    CantA INT NOT NULL CHECK (CantA > 0),
+    CostoAF INT NOT NULL CHECK (CostoAF > 0),
     CodMantenimiento INT NOT NULL,
     PRIMARY KEY (CodServicio, CodActividad),
     FOREIGN KEY (CodServicio) REFERENCES Servicios(CodServicio)
@@ -285,8 +311,8 @@ CREATE TABLE Modelos(
     Refrigerante VARCHAR(30) NOT NULL,
     AceiteMotor VARCHAR(30) NOT NULL,
     Octanaje VARCHAR(20) NOT NULL,
-    Peso DECIMAL(6, 2) NOT NULL,
-    CantPuesto INT NOT NULL,
+    Peso DECIMAL(6, 2) NOT NULL CHECK (Peso > 0),
+    CantPuesto INT NOT NULL CHECK (CantPuesto > 0),
     AceiteCaja VARCHAR(30) NOT NULL,
     PRIMARY KEY (CodMarca, CodModelo),
     FOREIGN KEY (CodMarca) REFERENCES Marcas(CodMarca)
@@ -306,14 +332,14 @@ CREATE TABLE Pagos(
     CodFacturaT INT,
     CodPago INT,
     Tipo CHAR(2) NOT NULL,
-    Moneda CHAR(1),
-    Telefono VARCHAR(12),
-    Fecha DATE,
-    Referencia VARCHAR(50),
-    Modalidad VARCHAR(20),
-    Monto DECIMAL(10, 2),
-    NumTarjeta VARCHAR(16),
-    Banco VARCHAR(20),
+    Moneda CHAR(1) NOT NULL,
+    Telefono VARCHAR(12) NOT NULL,
+    Fecha DATE NOT NULL,
+    Referencia VARCHAR(50) NOT NULL,
+    Modalidad VARCHAR(20) NOT NULL,
+    Monto DECIMAL(10, 2) NOT NULL CHECK (Monto > 0),
+    NumTarjeta VARCHAR(16) NOT NULL,
+    Banco VARCHAR(20) NOT NULL,
     PRIMARY KEY (CodFacturaS, CodFacturaT, CodPago),
     FOREIGN KEY (CodFacturaS) REFERENCES FacturasServicios(CodFacturaS)
     ON DELETE NO ACTION
@@ -338,7 +364,7 @@ CREATE TABLE PersonalRealizaServicio(
 CREATE TABLE DetalleFacturasServicios(
     CodF INT,
     CodServ INT,
-    MontoDetalle DECIMAL(10, 2) NOT NULL,
+    MontoDetalle DECIMAL(10, 2) NOT NULL CHECK (MontoDetalle > 0),
     PRIMARY KEY (CodF, CodServ),
     FOREIGN KEY (CodF) REFERENCES FacturasServicios(CodFacturaS)
     ON DELETE CASCADE
@@ -373,7 +399,7 @@ CREATE TABLE ActividadPorSolicitud (
     CodS INT, 
     CodAct INT,
     CantAct INT NOT NULL,
-    Costo DECIMAL(10, 2) NOT NULL,
+    Costo DECIMAL(10, 2) NOT NULL CHECK (Costo > 0),
     PRIMARY KEY (CodFicha, CodS, CodAct),
     FOREIGN KEY (CodFicha) REFERENCES SolicitudServicios(CodFicha)
     ON DELETE CASCADE
@@ -389,8 +415,8 @@ CREATE TABLE ActividadPorSolicitud (
 CREATE TABLE DetalleFacturaTienda (
     CodF INT,
     CodP INT,
-    Cantidad INT NOT NULL,
-    PrecioT DECIMAL(10, 2) NOT NULL,
+    Cantidad INT NOT NULL CHECK (Cantidad > 0),
+    PrecioT DECIMAL(10, 2) NOT NULL CHECK (PrecioT > 0),
     PRIMARY KEY (CodF, CodP),
     FOREIGN KEY (CodF) REFERENCES FacturasTiendas(CodFacturaT)
     ON DELETE CASCADE
@@ -406,8 +432,8 @@ CREATE TABLE ProductoUsadoActividad (
     CodS INT,
     CodAct INT,
     CodP INT,
-    Cantidad INT NOT NULL,
-    Costo DECIMAL(10, 2) NOT NULL,
+    Cantidad INT NOT NULL CHECK (Cantidad > 0),
+    Costo DECIMAL(10, 2) NOT NULL CHECK (Costo > 0),
     PRIMARY KEY (CodS, CodAct, CodP),
     FOREIGN KEY (CodS, CodAct) REFERENCES Actividades(CodServicio, CodActividad)
     ON DELETE CASCADE
@@ -424,13 +450,13 @@ CREATE TABLE MantenimientoPorModelo (
     CodMarca INT,
     CodModelo INT,
     CodMantenimiento INT,
-    TiempoUso TIME NOT NULL,
-    Kilometraje INT NOT NULL,
+    TiempoUso TIME NOT NULL CHECK (TiempoUso > 0),
+    Kilometraje INT NOT NULL CHECK (Kilometraje > 0),
     PRIMARY KEY (CodMarca, CodModelo, CodMantenimiento, TiempoUso, Kilometraje),
-    CONSTRAINT FK_MantenimientoPorModelo_Modelo FOREIGN KEY (CodMarca, CodModelo) REFERENCES Modelos(CodMarca, CodModelo)
+    FOREIGN KEY (CodMarca, CodModelo) REFERENCES Modelos(CodMarca, CodModelo)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-    CONSTRAINT FK_MantenimientoPorModelo_Modelo FOREIGN KEY (CodMarca, CodModelo) REFERENCES Modelos(CodMarca, CodModelo)
+    FOREIGN KEY (CodMarca, CodModelo) REFERENCES Modelos(CodMarca, CodModelo)
     ON DELETE NO ACTION
     ON UPDATE CASCADE
 )
@@ -443,7 +469,7 @@ CREATE TABLE ProductoPorModelo (
     CodMarca INT,
     CodModelo INT,
     CodP INT,
-    Cantidad INT NOT NULL,
+    Cantidad INT NOT NULL CHECK (Cantidad > 0),
     PRIMARY KEY (CodMarca, CodModelo, CodP),
     FOREIGN KEY (CodMarca, CodModelo) REFERENCES Modelos(CodMarca, CodModelo)
     ON DELETE NO ACTION
@@ -487,9 +513,9 @@ CREATE TABLE ProductoPorMultiservicio (
     RIFMult INT,
     CodP INT,
     FechaAjuste DATE,
-    Existencias INT NOT NULL,
-    Min INT NOT NULL,
-    Max INT NOT NULL,
+    Existencias INT NOT NULL CHECK (Existencias >= 0),
+    Min INT NOT NULL CHECK (Min > 0),
+    Max INT NOT NULL CHECK (Max > 0 AND Max >= Min),
     Comentario VARCHAR(50) NOT NULL,
     TipoAjuste CHAR(1) NOT NULL,
     PRIMARY KEY (RIFMult, CodP, FechaAjuste),
@@ -501,5 +527,36 @@ CREATE TABLE ProductoPorMultiservicio (
     ON UPDATE CASCADE
 )
 
+CREATE TABLE MultiserviciosEspecializadoTipoVehiculos (
+    Idtipo INT,
+    RIF INT,
+    PRIMARY KEY (Idtipo, RIF),
+    FOREIGN KEY (Idtipo) REFERENCES TipoVehiculos(Idtipo)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (RIF) REFERENCES Multiservicios(RIF)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+
+CREATE TABLE ModelosRequiereProductos(
+
+    Cantidad DECIMAL(4, 2) NOT NULL CHECK (Cantidad > 0)
+)
+
+
+
 -- (32) ProductoPorMultiservicio ([RIFMult] -> (1), [CodP] -> (12), FechaAjuste,
 -- Existencias, Min, Max, Comentario, TipoAjuste)
+
+-- Estas son tablas que se tiene que poner luego en el diagrama E/R y en el modelo relacional
+
+-- Tabla de tipos de vehiculos (ya colocada en la query)
+
+-- Vehiculo (1, N) -> posee -> (1, 1) TipoVehiculo Propagar clave de TipoVehiculo a Vehiculos (ya colocado en la query)
+
+-- Multiservicios (1, M) -> especializa -> (1, N) TipoVehiculos
+
+-- Agregar atributo TiempoMin a Actividad
+
+-- Agregar el atributo PorcentajeIni DECIMAL(5, 2) NOT NULL CHECK (PorcentajeIni >= 0.20 AND PorcentajeIni <= 0.50)
