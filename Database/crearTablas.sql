@@ -90,7 +90,7 @@ CREATE TABLE FacturasTiendas(
 -- Creacion de la Tabla Descuentos
 CREATE TABLE Descuentos(
     CodDescuento INT,
-    Valor DECIMAL(5, 2) NOT NULL CHECK (Valor > 0),
+    Valor DECIMAL(5, 2) NOT NULL CHECK (Valor BETWEEN 0 AND 1),
     MinVisita INT NOT NULL,
     MaxVisita INT NOT NULL,
     CONSTRAINT CHK_DescVisitas CHECK (MaxVisita >= MinVisita),
@@ -108,6 +108,7 @@ CREATE TABLE Clientes(
     Email VARCHAR(30) NOT NULL,
     TelfPrincipal VARCHAR(12) NOT NULL,
     TelfSecundario VARCHAR(12) NOT NULL,
+    CantUltimasVisitas INT NOT NULL DEFAULT 0 CHECK (CantUltimasVisitas >= 0),
     PRIMARY KEY (CI),
 	FOREIGN KEY (CodDescuento) REFERENCES Descuentos(CodDescuento)
 	ON DELETE NO ACTION
@@ -212,8 +213,6 @@ CREATE TABLE Requisiciones(
 -- FK de la Tabla Productos
 ALTER TABLE Productos
 ADD FOREIGN KEY (CodReq) REFERENCES Requisiciones(CodReq)
-ON DELETE NO ACTION
-ON UPDATE CASCADE
 
 -- Creacion de la Tabla LineasSuministros
 CREATE TABLE LineasSuministros(
