@@ -1,5 +1,5 @@
-CREATE TRIGGER triggerSolicitudPideActividades 
-ON SolicitudPideActividades AFTER INSERT, DELETE
+CREATE TRIGGER triggerSolicitudPideActividades_AfterInsert
+ON SolicitudPideActividades AFTER INSERT
 AS
 BEGIN 
     UPDATE SolicitudServicios 
@@ -10,3 +10,4 @@ BEGIN
     SET CantActividades = CantActividades + 1
     WHERE CodFicha IN (SELECT CodFicha FROM inserted)
 END;
+
