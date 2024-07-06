@@ -1,6 +1,7 @@
 CREATE DATABASE MultiserviciosMundial
 USE MultiserviciosMundial
 
+
 -- Creacion de Tabla Multiservicios
 CREATE TABLE Multiservicios(
     RIF INT,
@@ -31,9 +32,6 @@ CREATE TABLE Personal(
     ON UPDATE CASCADE
 )
 
--- FK de Tabla Multiservicios
-ALTER TABLE Multiservicios
-ADD FOREIGN KEY (CIEncargado) REFERENCES Personal(CI)
 
 -- Creacion de la Tabla Encargados
 CREATE TABLE Encargados(
@@ -44,6 +42,7 @@ CREATE TABLE Encargados(
     ON DELETE CASCADE
     ON UPDATE CASCADE
 )
+
 
 -- Creacion de la Tabla Servicios
 CREATE TABLE Servicios(

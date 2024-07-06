@@ -21,7 +21,9 @@ sql.connect(config, function (err) {
 
         request.query('SELECT * FROM Alumno;', (err, res) => {
             if (err) console.log(err)
-            console.log(res.recordset);
+            let data = res.recordset;
+            let json_content = JSON.stringify(data, null, 2);
+            console.log(json_content);
         })
     }
 });

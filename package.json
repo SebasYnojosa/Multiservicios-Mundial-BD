@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node Test/index.js"
+    "test": "node Server/index.js"
   },
   "keywords": [],
   "author": "",
