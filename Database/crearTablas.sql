@@ -102,15 +102,16 @@ CREATE TABLE Descuentos(
 -- Creacion de la Tabla Clientes
 CREATE TABLE Clientes(
     CI INT,
-    CodDescuento INT,
+	CodDescuento INT,
     Nombre VARCHAR(100) NOT NULL,
     Email VARCHAR(30) NOT NULL,
     TelfPrincipal VARCHAR(12) NOT NULL,
     TelfSecundario VARCHAR(12) NOT NULL,
     PRIMARY KEY (CI),
-    FOREIGN KEY (CodDescuento) REFERENCES Descuentos(CodDescuento)
+	FOREIGN KEY (CodDescuento) REFERENCES Descuentos(CodDescuento)
+	ON DELETE NO ACTION
+	ON UPDATE CASCADE
 )
-
 
 -- Creacion de la Tabla Vehiculos
 CREATE TABLE Vehiculos(
@@ -522,20 +523,3 @@ CREATE TABLE MultiserviciosEspecializadoTipoVehiculos (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 )
-
-
-
--- (32) ProductoPorMultiservicio ([RIFMult] -> (1), [CodP] -> (12), FechaAjuste,
--- Existencias, Min, Max, Comentario, TipoAjuste)
-
--- Estas son tablas que se tiene que poner luego en el diagrama E/R y en el modelo relacional
-
--- Tabla de tipos de vehiculos (ya colocada en la query)
-
--- Vehiculo (1, N) -> posee -> (1, 1) TipoVehiculo Propagar clave de TipoVehiculo a Vehiculos (ya colocado en la query)
-
--- Multiservicios (1, M) -> especializa -> (1, N) TipoVehiculos
-
--- Agregar atributo TiempoMin a Actividad
-
--- Agregar el atributo PorcentajeIni DECIMAL(5, 2) NOT NULL CHECK (PorcentajeIni >= 0.20 AND PorcentajeIni <= 0.50)
