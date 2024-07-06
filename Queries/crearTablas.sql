@@ -89,15 +89,28 @@ CREATE TABLE FacturasTiendas(
     ON UPDATE CASCADE
 )
 
+-- Creacion de la Tabla Descuentos
+CREATE TABLE Descuentos(
+    CodDescuento INT,
+    Valor DECIMAL(5, 2) NOT NULL CHECK (Valor > 0),
+    MinVisita INT NOT NULL,
+    MaxVisita INT NOT NULL,
+    CONSTRAINT CHK_DescVisitas CHECK (MaxVisita >= MinVisita),
+    PRIMARY KEY (CodDescuento)
+)
+
 -- Creacion de la Tabla Clientes
 CREATE TABLE Clientes(
     CI INT,
+    CodDescuento INT,
     Nombre VARCHAR(100) NOT NULL,
     Email VARCHAR(30) NOT NULL,
     TelfPrincipal VARCHAR(12) NOT NULL,
     TelfSecundario VARCHAR(12) NOT NULL,
-    PRIMARY KEY (CI) 
+    PRIMARY KEY (CI),
+    FOREIGN KEY (CodDescuento) REFERENCES Descuentos(CodDescuento)
 )
+
 
 -- Creacion de la Tabla Vehiculos
 CREATE TABLE Vehiculos(
