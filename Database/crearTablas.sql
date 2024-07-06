@@ -286,7 +286,6 @@ CREATE TABLE Actividades(
     DescA VARCHAR(50) NOT NULL,
     Costo DECIMAL(10, 2) NOT NULL CHECK (Costo > 0),
     TiempoMin DATE NOT NULL,
-    CodFichaSS INT,
     CodMantenimiento INT NOT NULL,
     PRIMARY KEY (CodServicio, CodActividad),
     FOREIGN KEY (CodServicio) REFERENCES Servicios(CodServicio)
