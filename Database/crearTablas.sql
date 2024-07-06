@@ -443,8 +443,7 @@ CREATE TABLE MantenimientoPorModelo (
     PRIMARY KEY (CodMarca, CodModelo, CodMantenimiento, TiempoUso, Kilometraje),
     FOREIGN KEY (CodMarca, CodModelo) REFERENCES Modelos(CodMarca, CodModelo)
     ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-    FOREIGN KEY (CodMarca, CodModelo) REFERENCES Modelos(CodMarca, CodModelo)
+    ON UPDATE CASCADE
 )
 
 -- (28) MantenimientoPorModelo ([CodMarca, CodModelo] -> (19),
