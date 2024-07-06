@@ -341,26 +341,92 @@ ON DELETE NO ACTION
 ON UPDATE CASCADE
 
 -- Creacion de la Tabla Pagos
-CREATE TABLE Pagos(
-    CodFacturaS INT,
+CREATE TABLE PagosTiendas(
     CodFacturaT INT,
     CodPago INT,
-    Tipo CHAR(2) NOT NULL,
-    Moneda CHAR(1) NULL,
-    Telefono VARCHAR(12) NULL,
-    Fecha DATE NULL,
-    Referencia VARCHAR(50) NULL,
-    Modalidad VARCHAR(20) NULL,
-    Monto DECIMAL(10, 2) NULL CHECK (Monto > 0),
-    NumTarjeta VARCHAR(16) NULL,
-    Banco VARCHAR(20) NULL,
-    PRIMARY KEY (CodFacturaS, CodFacturaT, CodPago),
+    Tipo CHAR(2) NOT NULL CHECK (Tipo IN ('E', 'PM', 'T')),
+    Moneda CHAR(1),
+    Telefono VARCHAR(12),
+    Fecha DATE,
+    Referencia VARCHAR(50),
+    Modalidad VARCHAR(20),
+    Monto DECIMAL(10, 2) CHECK (Monto > 0),
+    NumTarjeta VARCHAR(16),
+    Banco VARCHAR(20),
+    PRIMARY KEY (CodFacturaT, CodPago),
+    FOREIGN KEY (CodFacturaT) REFERENCES FacturasTiendas(CodFacturaT)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+    CONSTRAINT CHK_E CHECK ((Tipo = 'E' AND Moneda IS NOT NULL
+                                       AND Telefono IS NULL
+                                       AND Fecha IS NULL
+                                       AND Referencia IS NULL
+                                       AND Modalidad IS NULL
+                                       AND Monto IS NULL
+                                       AND NumTarjeta IS NULL
+                                       AND Banco IS NULL) 
+                            OR
+                            (Tipo = 'PM' AND Moneda IS NULL
+                                         AND Telefono IS NOT NULL
+                                         AND Fecha IS NOT NULL
+                                         AND Referencia IS NOT NULL
+                                         AND Modalidad IS NULL
+                                         AND Monto IS NULL
+                                         AND NumTarjeta IS NULL
+                                         AND BANCO IS NULL)
+                            OR
+                            (Tipo = 'T') AND Moneda IS NULL
+                                         AND Telefono IS NULL
+                                         AND Fecha IS NULL
+                                         AND Referencia IS NULL
+                                         AND Modalidad IS NOT NULL
+                                         AND Monto IS NOT NULL
+                                         AND NumTarjeta IS NOT NULL
+                                         AND Banco IS NOT NULL)
+)
+
+CREATE TABLE PagosServicios(
+    CodFacturaS INT,
+    CodPago INT,
+    Tipo CHAR(2) NOT NULL CHECK (Tipo IN ('E', 'PM', 'T')),
+    Moneda CHAR(1),
+    Telefono VARCHAR(12),
+    Fecha DATE,
+    Referencia VARCHAR(50),
+    Modalidad VARCHAR(20),
+    Monto DECIMAL(10, 2) CHECK (Monto > 0),
+    NumTarjeta VARCHAR(16),
+    Banco VARCHAR(20),
+    PRIMARY KEY (CodFacturaS, CodPago),
     FOREIGN KEY (CodFacturaS) REFERENCES FacturasServicios(CodFacturaS)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-    FOREIGN KEY (CodFacturaT) REFERENCES FacturasTiendas(CodFacturaT)
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE
+    CONSTRAINT CHK_E CHECK ((Tipo = 'E' AND Moneda IS NOT NULL
+                                       AND Telefono IS NULL
+                                       AND Fecha IS NULL
+                                       AND Referencia IS NULL
+                                       AND Modalidad IS NULL
+                                       AND Monto IS NULL
+                                       AND NumTarjeta IS NULL
+                                       AND Banco IS NULL) 
+                            OR
+                            (Tipo = 'PM' AND Moneda IS NULL
+                                         AND Telefono IS NOT NULL
+                                         AND Fecha IS NOT NULL
+                                         AND Referencia IS NOT NULL
+                                         AND Modalidad IS NULL
+                                         AND Monto IS NULL
+                                         AND NumTarjeta IS NULL
+                                         AND BANCO IS NULL)
+                            OR
+                            (Tipo = 'T') AND Moneda IS NULL
+                                         AND Telefono IS NULL
+                                         AND Fecha IS NULL
+                                         AND Referencia IS NULL
+                                         AND Modalidad IS NOT NULL
+                                         AND Monto IS NOT NULL
+                                         AND NumTarjeta IS NOT NULL
+                                         AND Banco IS NOT NULL)
 )
 
 CREATE TABLE PersonalRealizaServicio(
