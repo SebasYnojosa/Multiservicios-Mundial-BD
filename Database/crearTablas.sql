@@ -408,22 +408,6 @@ CREATE TABLE ReservaApartaActividad (
 -- (23) ReservaApartaActividad ([NumReserva] -> (8), [CodS, CodAct] -> (18),
 -- Disponibilidad, FAnterior)
 
-CREATE TABLE ActividadPorSolicitud (
-    CodFicha INT,
-    CodS INT, 
-    CodAct INT,
-    CantAct INT NOT NULL,
-    Costo DECIMAL(10, 2) NOT NULL CHECK (Costo > 0),
-    PRIMARY KEY (CodFicha, CodS, CodAct),
-    FOREIGN KEY (CodFicha) REFERENCES SolicitudServicios(CodFicha)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    FOREIGN KEY (CodS, CodAct) REFERENCES Actividades(CodServicio, CodActividad)
-)
-
--- (24) ActividadPorSolicitud ([CodFicha] -> (9), [CodS, CodAct] -> (18), CantAct,
--- Costo)
-
 CREATE TABLE DetalleFacturaTienda (
     CodF INT,
     CodP INT,
