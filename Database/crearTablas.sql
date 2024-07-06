@@ -159,6 +159,7 @@ CREATE TABLE SolicitudServicios(
     CodVehiculo INT NOT NULL,
     Costo DECIMAL(10, 2) NOT NULL CHECK (Costo > 0),
     CantActividades INT NOT NULL CHECK (CantActividades > 0),
+    Fecha DATE NOT NULL,
     PRIMARY KEY (CodFicha),
     FOREIGN KEY (CodVehiculo) REFERENCES Vehiculos(CodVehiculo)
     ON DELETE NO ACTION
