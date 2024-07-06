@@ -28,8 +28,8 @@ router.get('/:CodFicha', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const { CodFicha, NombreResponsable, CIPersRet, NombrePersRet, CodVehiculo } = req.body;
-    new sql.Request().query(`INSERT INTO SolicitudServicios VALUES (${CodFicha}, '${NombreResponsable}', ${CIPersRet}, '${NombrePersRet}', ${CodVehiculo})`, (err, data) => {
+    const { CodFicha, NombreResponsable, CIPersRet, NombrePersRet, CodVehiculo, Costo, CantAct } = req.body;
+    new sql.Request().query(`INSERT INTO SolicitudServicios VALUES (${CodFicha}, '${NombreResponsable}', ${CIPersRet}, '${NombrePersRet}', ${CodVehiculo}, '${Costo}', ${CantAct})`, (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
@@ -53,8 +53,8 @@ router.delete('/:CodFicha', (req, res) => {
 
 router.put('/:CodFicha', (req, res) => {
     const { CodFicha } = req.params;
-    const { NombreResponsable, CIPersRet, NombrePersRet, CodVehiculo } = req.body;
-    new sql.Request().query(`UPDATE SolicitudServicios SET NombreResponsable = '${NombreResponsable}, CIPersRet = '${CIPersRet}, NombrePersRet = '${NombrePersRet}, CodVehiculo = '${CodVehiculo} WHERE CodFicha = ${CodFicha}`, (err, data) => {
+    const { NombreResponsable, CIPersRet, NombrePersRet, CodVehiculo, Costo, CantAct } = req.body;
+    new sql.Request().query(`UPDATE SolicitudServicios SET NombreResponsable = '${NombreResponsable}, CIPersRet = '${CIPersRet}, NombrePersRet = '${NombrePersRet}, CodVehiculo = '${CodVehiculo}, Costo = '${Costo}, CantAct = '${CantAct} WHERE CodFicha = ${CodFicha}`, (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
