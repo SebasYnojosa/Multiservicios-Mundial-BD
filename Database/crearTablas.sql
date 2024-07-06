@@ -98,6 +98,9 @@ CREATE TABLE Descuentos(
     PRIMARY KEY (CodDescuento)
 )
 
+ALTER TABLE Descuentos
+ADD CONSTRAINT UC_Descuentos UNIQUE (Valor)
+
 -- Creacion de la Tabla Clientes
 CREATE TABLE Clientes(
     CI INT,
@@ -151,14 +154,18 @@ CREATE TABLE Reservas(
 CREATE TABLE SolicitudServicios(
     CodFicha INT,
     NombreResponsable VARCHAR(100) NOT NULL,
-    CIPersRet INT NULL,
-    NombrePersRet VARCHAR(100) NULL,
+    CIPersRet INT,
+    NombrePersRet VARCHAR(100),
     CodVehiculo INT NOT NULL,
+    Costo DECIMAL(10, 2) NOT NULL CHECK (Costo > 0),
+    CantActividades INT NOT NULL CHECK (CantActividades > 0),
     PRIMARY KEY (CodFicha),
     FOREIGN KEY (CodVehiculo) REFERENCES Vehiculos(CodVehiculo)
     ON DELETE NO ACTION
     ON UPDATE CASCADE
 )
+
+DROP TABLE SolicitudServicios
 
 -- Creacion de la Tabla Marcas
 CREATE TABLE Marcas(
@@ -283,15 +290,23 @@ CREATE TABLE Actividades(
     Costo DECIMAL(10, 2) NOT NULL CHECK (Costo > 0),
     TiempoMin DATE NOT NULL,
     CodFichaSS INT,
-    CantA INT NOT NULL CHECK (CantA > 0),
-    CostoAF INT NOT NULL CHECK (CostoAF > 0),
     CodMantenimiento INT NOT NULL,
     PRIMARY KEY (CodServicio, CodActividad),
     FOREIGN KEY (CodServicio) REFERENCES Servicios(CodServicio)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    FOREIGN KEY (CodFichaSS) REFERENCES SolicitudServicios(CodFicha),
     FOREIGN KEY (CodMantenimiento) REFERENCES Mantenimientos(CodMantenimiento)
+)
+
+-- Creacion de la tabla de SolicitudPideActividades
+
+CREATE TABLE SolicitudPideActividades(
+    CodFichaSS INT,
+    CodS INT,
+    CodAct INT,
+    PRIMARY KEY (CodFichaSS, CodS, CodAct),
+    FOREIGN KEY (CodFichaSS) REFERENCES SolicitudServicios(CodFicha),
+    FOREIGN KEY (CodS, CodAct) REFERENCES Actividades(CodServicio, CodActividad)
 )
 
 CREATE TABLE ActividadRequiereProducto (

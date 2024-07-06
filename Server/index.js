@@ -40,6 +40,7 @@ const routerProductoPorMultiservicio = require('./routes/ProductoPorMultiservici
 const routerMultiserviciosEspecializadoTipoVehiculos = require('./routes/MultiserviciosEspecializadoTipoVehiculos.routes.js');
 
 app.use(express.json());
+
 app.use('/multiservicios', routerMultiservicios);
 app.use('/personal', routerPersonal);
 app.use('/tipovehiculos', routerTipoVehiculos);
@@ -61,21 +62,21 @@ app.use('/proveedores', routerProveedores);
 app.use('/ordenescompras', routerOrdenesCompras);
 app.use('/facturasproveedor', routerFacturasProveedor); 
 app.use('/actividades', routerActividades);
-app.use('/actividadrequiereproducto', routerActividadRequiereProducto);
+app.use('/actividad/producto', routerActividadRequiereProducto);
 app.use('/modelos', routerModelos);
 app.use('/pagos', routerPagos);
-app.use('/personalrealizaservicio', routerPersonalRealizaServicio);
-app.use('/detallefacturasservicios', routerDetalleFacturasServicios);
-app.use('/reservaapartaactividad', routerReservaApartaActividad);
-app.use('/actividadporsolicitud', routerActividadPorSolicitud);
-app.use('/detallefacturatienda', routerDetalleFacturaTienda);
-app.use('/productousadoactividad', routerProductoUsadoActividad);
-app.use('/mantenimientopormodelo', routerMantenimientoPorModelo);
-app.use('/productopormodelo', routerProductoPorModelo);
-app.use('/actividadespormantenimiento', routerActividadesPorMantenimiento);
-app.use('/lineasumporproveedor', routerLineaSumPorProveedor);
-app.use('/productopormultiservicio', routerProductoPorMultiservicio);
-app.use('/multiserviciosespecializadotipovehiculos', routerMultiserviciosEspecializadoTipoVehiculos);
+app.use('/personal/servicio', routerPersonalRealizaServicio);
+app.use('/facturasservicios/detalle', routerDetalleFacturasServicios);
+app.use('/reserva/actividad', routerReservaApartaActividad);
+app.use('/actividad/solicitud', routerActividadPorSolicitud);
+app.use('/facturatienda/detalle', routerDetalleFacturaTienda);
+app.use('/producto/actividad', routerProductoUsadoActividad);
+app.use('/mantenimiento/modelo', routerMantenimientoPorModelo);
+app.use('/producto/modelo', routerProductoPorModelo);
+app.use('/actividades/mantenimiento', routerActividadesPorMantenimiento);
+app.use('/lineasum/propveedor', routerLineaSumPorProveedor);
+app.use('/producto/multiservicio', routerProductoPorMultiservicio);
+app.use('/multiservicios/tipovehiculos', routerMultiserviciosEspecializadoTipoVehiculos);
 
 app.listen(3000, () => {
     console.log('Server running on port 3000');
