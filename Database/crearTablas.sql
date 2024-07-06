@@ -1,7 +1,6 @@
 CREATE DATABASE MultiserviciosMundial
 USE MultiserviciosMundial
 
-
 -- Creacion de Tabla Multiservicios
 CREATE TABLE Multiservicios(
     RIF INT,
@@ -164,8 +163,6 @@ CREATE TABLE SolicitudServicios(
     ON DELETE NO ACTION
     ON UPDATE CASCADE
 )
-
-DROP TABLE SolicitudServicios
 
 -- Creacion de la Tabla Marcas
 CREATE TABLE Marcas(

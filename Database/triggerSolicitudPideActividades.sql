@@ -2,11 +2,11 @@ CREATE TRIGGER triggerSolicitudPideActividades
 ON SolicitudPideActividades AFTER INSERT, DELETE
 AS
 BEGIN 
-    UPDATE SolicitudServicio 
-    SET Costo = (SELECT SUM(Costo) FROM SolicitudPideActividades WHERE CodFicha = SolicitudServicio.CodFicha)
+    UPDATE SolicitudServicios 
+    SET Costo = Costo + (SELECT Costo FROM Actividad WHERE CodActividad = inserted.CodActividad)
     WHERE CodFicha IN (SELECT CodFicha FROM inserted)
 
-    UPDATE SolicitudServicio
-    SET CantActividades = (SELECT COUNT(*) FROM SolicitudPideActividades WHERE CodFicha = SolicitudServicio.CodFicha)
+    UPDATE SolicitudServicios
+    SET CantActividades = CantActividades + 1
     WHERE CodFicha IN (SELECT CodFicha FROM inserted)
 END;
