@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:CodMarcaCodModelo', (req, res) => {
+router.get('/:CodMarca/:CodModelo', (req, res) => {
     const { CodMarca, CodModelo } = req.params;
     new sql.Request().query(`SELECT * FROM Modelos WHERE CodMarca = ${CodMarca} AND CodModelo = ${CodModelo}` , (err, data) => {
         if (err) {
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:CodMarcaCodModelo', (req, res) => {
+router.delete('/:CodMarca/:CodModelo', (req, res) => {
     const { CodMarca, CodModelo } = req.params;
     new sql.Request().query(`DELETE FROM Modelos WHERE CodMarca = ${CodMarca} AND CodModelo = ${CodModelo}`, (err, data) => {
         if (err) {
@@ -51,7 +51,7 @@ router.delete('/:CodMarcaCodModelo', (req, res) => {
     })
 })
 
-router.put('/:CodMarcaCodModelo', (req, res) => {
+router.put('/:CodMarca/:CodModelo', (req, res) => {
     const { CodMarca, CodModelo } = req.params;
     const { Descripcion, Refrigerante, AceiteMotor, Octanaje, Peso, CantPuesto, AceiteCaja } = req.body;
     new sql.Request().query(`UPDATE Modelos SET Descripcion = '${Descripcion}, Refrigerante = '${Refrigerante}, AceiteMotor = '${AceiteMotor}, Octanaje = '${Octanaje}, Peso = '${Peso}, CantPuesto = '${CantPuesto}, AceiteCaja = '${AceiteCaja} WHERE CodMarca = ${CodMarca} AND CodModelo = ${CodModelo}`, (err, data) => {

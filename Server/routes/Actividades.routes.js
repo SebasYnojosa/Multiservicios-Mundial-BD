@@ -14,8 +14,9 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:CodServicioCodActividad', (req, res) => {
+router.get('/:CodServicio/:CodActividad', (req, res) => {
     const { CodServicio, CodActividad } = req.params;
+    console.log(CodServicio + '&' + CodActividad);
     new sql.Request().query(`SELECT * FROM Actividades WHERE CodServicio = ${CodServicio} AND CodActividad = ${CodActividad}` , (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
@@ -39,7 +40,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:CodServicioCodActividad', (req, res) => {
+router.delete('/:CodServicio/:CodActividad', (req, res) => {
     const { CodServicio, CodActividad } = req.params;
     new sql.Request().query(`DELETE FROM Actividades WHERE CodServicio = ${CodServicio} AND CodActividad = ${CodActividad}`, (err, data) => {
         if (err) {
@@ -51,7 +52,7 @@ router.delete('/:CodServicioCodActividad', (req, res) => {
     })
 })
 
-router.put('/:CodServicioCodActividad', (req, res) => {
+router.put('/:CodServicio/:CodActividad', (req, res) => {
     const { CodServicio, CodActividad } = req.params;
     const { DescA, Costo, TiempoMin, CodFichaSS, CantA, CostoAF, CodMantenimiento } = req.body;
     new sql.Request().query(`UPDATE Actividades SET DescA = '${DescA}, Costo = '${Costo}, TiempoMin = '${TiempoMin}, CodFichaSS = '${CodFichaSS}, CantA = '${CantA}, CostoAF = '${CostoAF}, CodMantenimiento = '${CodMantenimiento} WHERE CodServicio = ${CodServicio} AND CodActividad = ${CodActividad}`, (err, data) => {

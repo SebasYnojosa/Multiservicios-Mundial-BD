@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:CodSCodActCodP', (req, res) => {
+router.get('/:CodS/:CodAct/:CodP', (req, res) => {
     const { CodS, CodAct, CodP } = req.params;
     new sql.Request().query(`SELECT * FROM ProductoUsadoActividad WHERE CodS = ${CodS} AND CodAct = ${CodAct} AND CodP = ${CodP}`, (err, data) => {
         if (err) {
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:CodSCodActCodP', (req, res) => {
+router.delete('/:CodS/:CodAct/:CodP', (req, res) => {
     const { CodS, CodAct, CodP } = req.params;
     new sql.Request().query(`DELETE FROM ProductoUsadoActividad WHERE CodS = ${CodS} AND CodAct = ${CodAct} AND CodP = ${CodP}`, (err, data) => {
         if (err) {
@@ -51,7 +51,7 @@ router.delete('/:CodSCodActCodP', (req, res) => {
     })
 })
 
-router.put('/:CodSCodActCodP', (req, res) => {
+router.put('/:CodS/:CodAct/:CodP', (req, res) => {
     const { CodS, CodAct, CodP } = req.params;
     const { Cantidad, Costo } = req.body;
     new sql.Request().query(`UPDATE ProductoUsadoActividad SET Cantidad = '${Cantidad}, Costo = '${Costo}' WHERE CodS = ${CodS} AND CodAct = ${CodAct} AND CodP = ${CodP}`, (err, data) => {

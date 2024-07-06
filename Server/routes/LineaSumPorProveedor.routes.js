@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:RIFProveedorCodLinea', (req, res) => {
+router.get('/:RIFProveedor/:CodLinea', (req, res) => {
     const { RIFProveedor, CodLinea } = req.params;
     new sql.Request().query(`SELECT * FROM LineaSumPorProveedor WHERE RIFProveedor = ${RIFProveedor} AND CodLinea = ${CodLinea}`, (err, data) => {
         if (err) {
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:RIFProveedorCodLinea', (req, res) => {
+router.delete('/:RIFProveedor/:CodLinea', (req, res) => {
     const { RIFProveedor, CodLinea } = req.params;
     new sql.Request().query(`DELETE FROM LineaSumPorProveedor WHERE RIFProveedor = ${RIFProveedor} AND CodLinea = ${CodLinea}`, (err, data) => {
         if (err) {

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node Server/index.js"
+    "test": "node Server/index.js",
+    "dev": "nodemon Server/index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +14,8 @@
     "express": "^4.19.2",
     "mssql": "^11.0.1",
     "swagger": "^0.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }

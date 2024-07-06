@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:RIFMultCodPFechaAjuste', (req, res) => {
+router.get('/:RIFMult/:CodP/:FechaAjuste', (req, res) => {
     const { RIFMult, CodP, FechaAjuste } = req.params;
     new sql.Request().query(`SELECT * FROM ProductoPorMultiservicio WHERE RIFMult = ${RIFMult} AND CodP = ${CodP} AND FechaAjuste = ${FechaAjuste}` , (err, data) => {
         if (err) {
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:RIFMultCodPFechaAjuste', (req, res) => {
+router.delete('/:RIFMult/:CodP/:FechaAjuste', (req, res) => {
     const { RIFMult, CodP, FechaAjuste } = req.params;
     new sql.Request().query(`DELETE FROM ProductoPorMultiservicio WHERE RIFMult = ${RIFMult} AND CodP = ${CodP} AND FechaAjuste = ${FechaAjuste}`, (err, data) => {
         if (err) {
@@ -51,7 +51,7 @@ router.delete('/:RIFMultCodPFechaAjuste', (req, res) => {
     })
 })
 
-router.put('/:RIFMultCodPFechaAjuste', (req, res) => {
+router.put('/:RIFMult/:CodP/:FechaAjuste', (req, res) => {
     const { RIFMult, CodP, FechaAjuste } = req.params;
     const { Existencias, Min, Max, Comentario, TipoAjuste } = req.body;
     new sql.Request().query(`UPDATE ProductoPorMultiservicio SET Existencias = '${Existencias}, Min = '${Min}, Max = '${Max}, Comentario = '${Comentario}, TipoAjuste = '${TipoAjuste}' WHERE RIFMult = ${RIFMult} AND CodP = ${CodP} AND FechaAjuste = ${FechaAjuste}`, (err, data) => {

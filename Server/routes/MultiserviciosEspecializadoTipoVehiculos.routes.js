@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:IdtipoRIF', (req, res) => {
+router.get('/:Idtipo/:RIF', (req, res) => {
     const { Idtipo, RIF } = req.params;
     new sql.Request().query(`SELECT * FROM MultiserviciosEspecializadoTipoVehiculo WHERE Idtipo = ${Idtipo} AND RIF = ${RIF}`, (err, data) => {
         if (err) {
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:IdtipoRIF', (req, res) => {
+router.delete('/:Idtipo/:RIF', (req, res) => {
     const { Idtipo, RIF } = req.params;
     new sql.Request().query(`DELETE FROM MultiserviciosEspecializadoTipoVehiculos WHERE Idtipo = ${Idtipo} AND RIF = ${RIF}`, (err, data) => {
         if (err) {

@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:CodFCodServ', (req, res) => {
+router.get('/:CodF/:CodServ', (req, res) => {
     const { CodF, CodServ } = req.params;
     new sql.Request().query(`SELECT * FROM DetalleFacturasServicios WHERE CodF = ${CodF} AND CodServ = ${CodServ}`, (err, data) => {
         if (err) {
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:CodFCodServ', (req, res) => {
+router.delete('/:CodF/:CodServ', (req, res) => {
     const { CodF, CodServ } = req.params;
     new sql.Request().query(`DELETE FROM DetalleFacturasServicios WHERE CodF = ${CodF} AND CodServ = ${CodServ}`, (err, data) => {
         if (err) {
@@ -51,7 +51,7 @@ router.delete('/:CodFCodServ', (req, res) => {
     })
 })
 
-router.put('/:CodFCodServ', (req, res) => {
+router.put('/:CodF/:CodServ', (req, res) => {
     const { CodF, CodServ } = req.params;
     const { MontoDetalle } = req.body;
     new sql.Request().query(`UPDATE DetalleFacturasServicios SET MontoDetalle = '${MontoDetalle} CodF = ${CodF} AND CodServ = ${CodServ}`, (err, data) => {

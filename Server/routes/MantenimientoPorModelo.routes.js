@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:CodMarcaCodModeloCodMantenimientoTiempoUsoKilometraje', (req, res) => {
+router.get('/:CodMarca/:CodModelo/:CodMantenimiento/:TiempoUso/:Kilometraje', (req, res) => {
     const { CodMarca, CodModelo, CodMantenimiento, TiempoUso, Kilometraje } = req.params;
     new sql.Request().query(`SELECT * FROM MantenimientoPorModelo WHERE CodMarca = ${CodMarca} AND CodModelo = ${CodModelo} AND CodMantenimiento = ${CodMantenimiento} AND TiempoUso = ${TiempoUso} AND Kilometraje = ${Kilometraje}`, (err, data) => {
         if (err) {
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:CodMarcaCodModeloCodMantenimientoTiempoUsoKilometraje', (req, res) => {
+router.delete('/:CodMarca/:CodModelo/:CodMantenimiento/:TiempoUso/:Kilometraje', (req, res) => {
     const { CodMarca, CodModelo, CodMantenimiento, TiempoUso, Kilometraje } = req.params;
     new sql.Request().query(`DELETE FROM MantenimientoPorModelo WHERE CodMarca = ${CodMarca} AND CodModelo = ${CodModelo} AND CodMantenimiento = ${CodMantenimiento} AND TiempoUso = ${TiempoUso} AND Kilometraje = ${Kilometraje}`, (err, data) => {
         if (err) {

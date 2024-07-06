@@ -66,7 +66,7 @@ app.use('/modelos', routerModelos);
 app.use('/pagos', routerPagos);
 app.use('/personalrealizaservicio', routerPersonalRealizaServicio);
 app.use('/detallefacturasservicios', routerDetalleFacturasServicios);
-app.user('/reservaapartaactividad', routerReservaApartaActividad);
+app.use('/reservaapartaactividad', routerReservaApartaActividad);
 app.use('/actividadporsolicitud', routerActividadPorSolicitud);
 app.use('/detallefacturatienda', routerDetalleFacturaTienda);
 app.use('/productousadoactividad', routerProductoUsadoActividad);

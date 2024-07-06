@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:NumReservaCodSCodAct', (req, res) => {
+router.get('/:NumReserva/:CodS/:CodAct', (req, res) => {
     const { NumReserva, CodS, CodAct } = req.params;
     new sql.Request().query(`SELECT * FROM ReservaApartaActividad WHERE NumReserva = ${NumReserva} AND CodS = ${CodS} AND CodAct = ${CodAct}`, (err, data) => {
         if (err) {
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:NumReservaCodSCodAct', (req, res) => {
+router.delete('/:NumReserva/:CodS/:CodAct', (req, res) => {
     const { NumReserva, CodS, CodAct } = req.params;
     new sql.Request().query(`DELETE FROM ReservaApartaActividad WHERE NumReserva = ${NumReserva} AND CodS = ${CodS} AND CodAct = ${CodAct}`, (err, data) => {
         if (err) {
@@ -51,7 +51,7 @@ router.delete('/:NumReservaCodSCodAct', (req, res) => {
     })
 })
 
-router.put('/:NumReservaCodSCodAct', (req, res) => {
+router.put('/:NumReserva/:CodS/:CodAct', (req, res) => {
     const { NumReserva, CodS, CodAct } = req.params;
     const { Disponibilidad, FAnterior } = req.body;
     new sql.Request().query(`UPDATE ReservaApartaActividad SET Disponibilidad = '${Disponibilidad}, FAnterior = '${FAnterior}' WHERE NumReserva = ${NumReserva} AND CodS = ${CodS} AND CodAct = ${CodAct}`, (err, data) => {

@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:CodFacturaSCodFacturaTCodPago', (req, res) => {
+router.get('/:CodFacturaS/:CodFacturaT/:CodPago', (req, res) => {
     const { CodFacturaS, CodFacturaT, CodPago } = req.params;
     new sql.Request().query(`SELECT * FROM Pagos WHERE CodFacturaS = ${CodFacturaS} AND CodFacturaT = ${CodFacturaT} AND CodPago = ${CodPago}` , (err, data) => {
         if (err) {
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:CodFacturaSCodFacturaTCodPago', (req, res) => {
+router.delete('/:CodFacturaS/:CodFacturaT/:CodPago', (req, res) => {
     const { CodFacturaS, CodFacturaT, CodPago } = req.params;
     new sql.Request().query(`DELETE FROM Pagos WHERE CodFacturaS = ${CodFacturaS} AND CodFacturaT = ${CodFacturaT} AND CodPago = ${CodPago}`, (err, data) => {
         if (err) {
@@ -51,7 +51,7 @@ router.delete('/:CodFacturaSCodFacturaTCodPago', (req, res) => {
     })
 })
 
-router.put('/:CodFacturaSCodFacturaTCodPago', (req, res) => {
+router.put('/:CodFacturaS/:CodFacturaT/:CodPago', (req, res) => {
     const { CodFacturaS, CodFacturaT, CodPago } = req.params;
     const { Tipo, Moneda, Telefono, Fecha, Referencia, Modalidad, Monto, NumTarjeta, Banco } = req.body;
     new sql.Request().query(`UPDATE Pagos SET Tipo = '${Tipo}, Moneda = '${Moneda}, Telefono = '${Telefono}, Fecha = '${Fecha}, Referencia = '${Referencia}, Modalidad = '${Modalidad}, Monto = '${Monto}, NumTarjeta = '${NumTarjeta}, Banco = '${Banco} WHERE CodFacturaS = ${CodFacturaS} AND CodFacturaT = ${CodFacturaT} AND CodPago = ${CodPago}`, (err, data) => {

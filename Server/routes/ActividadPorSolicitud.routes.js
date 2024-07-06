@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:CodFichaCodSCodAct', (req, res) => {
+router.get('/:CodFicha/:CodS/:CodAct', (req, res) => {
     const { CodFicha, CodS, CodAct } = req.params;
     new sql.Request().query(`SELECT * FROM ActividadPorSolicitud WHERE CodFicha = ${CodFicha} AND CodS = ${CodS} AND CodAct = ${CodAct}`, (err, data) => {
         if (err) {
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:CodFichaCodSCodAct', (req, res) => {
+router.delete('/:CodFicha/:CodS/:CodAct', (req, res) => {
     const { CodFicha, CodS, CodAct } = req.params;
     new sql.Request().query(`DELETE FROM ActividadPorSolicitud WHERE CodFicha = ${CodFicha} AND CodS = ${CodS} AND CodAct = ${CodAct}`, (err, data) => {
         if (err) {
@@ -51,7 +51,7 @@ router.delete('/:CodFichaCodSCodAct', (req, res) => {
     })
 })
 
-router.put('/:CodFichaCodSCodAct', (req, res) => {
+router.put('/:CodFicha/:CodS/:CodAct', (req, res) => {
     const { CodFicha, CodS, CodAct } = req.params;
     const { CantAct, Costo } = req.body;
     new sql.Request().query(`UPDATE ActividadPorSolicitud SET CantAct = '${CantAct}, Costo = '${Costo}' WHERE CodFicha = ${CodFicha} AND CodS = ${CodS} AND CodAct = ${CodAct}`, (err, data) => {

@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:CIPersonalCodServicio', (req, res) => {
+router.get('/:CIPersonal/:CodServicio', (req, res) => {
     const { CIPersonal, CodServicio } = req.params;
     new sql.Request().query(`SELECT * FROM PersonalRealizaServicio WHERE CIPersonal = ${CIPersonal} AND CodServicio = ${CodServicio}`, (err, data) => {
         if (err) {
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:CIPersonalCodServicio', (req, res) => {
+router.delete('/:CIPersonal/:CodServicio', (req, res) => {
     const { CIPersonal, CodServicio } = req.params;
     new sql.Request().query(`DELETE FROM PersonalRealizaServicio WHERE CIPersonal = ${CIPersonal} AND CodServicio = ${CodServicio}`, (err, data) => {
         if (err) {

@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:CodSCodActCodMant', (req, res) => {
+router.get('/:CodS/:CodAct/:CodMant', (req, res) => {
     const { CodS, CodAct, CodMant } = req.params;
     new sql.Request().query(`SELECT * FROM ActividadesPorMantenimiento WHERE CodS = ${CodS} AND CodAct = ${CodAct} AND CodMant = ${CodMant}`, (err, data) => {
         if (err) {
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:CodSCodActCodMant', (req, res) => {
+router.delete('/:CodS/:CodAct/:CodMant', (req, res) => {
     const { CodS, CodAct, CodMant } = req.params;
     new sql.Request().query(`DELETE FROM ActividadesPorMantenimiento WHERE CodS = ${CodS} AND CodAct = ${CodAct} AND CodMant = ${CodMant}`, (err, data) => {
         if (err) {
