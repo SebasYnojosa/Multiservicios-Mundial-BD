@@ -16,6 +16,15 @@ const routerReservas = require('./routes/Reservas.routes.js');
 const routerSolicitudServicios = require('./routes/SolicitudServicios.routes.js');
 const routerMarcas = require('./routes/Marcas.routes.js');
 const routerMantenimientos = require('./routes/Mantenimientos.routes.js');
+const routerProductos = require('./routes/Productos.routes.js');
+const routerRequisiciones = require('./routes/Requisiciones.routes.js');
+const routerLineasSuministros = require('./routes/LineasSuministros.routes.js');
+const routerProveedores = require('./routes/Proveedores.routes.js');
+const routerOrdenesCompras = require('./routes/OrdenesCompras.routes.js');
+const routerFacturasProveedor = require('./routes/FacturasProveedor.routes.js');
+const routerActividades = require('./routes/Actividades.routes.js');
+const routerActividadRequiereProducto = require('./routes/ActividadRequiereProducto.routes.js');
+const routerModelos = require('./routes/Modelos.routes.js');
 
 app.use(express.json());
 app.use('/multiservicios', routerMultiservicios);
@@ -32,6 +41,15 @@ app.use('/reservas', routerReservas);
 app.use('/solicitudservicios', routerSolicitudServicios);
 app.use('/marcas', routerMarcas);
 app.use('/mantenimientos', routerMantenimientos);
+app.use('/productos', routerProductos);
+app.use('/requisiciones', routerRequisiciones);
+app.use('/lineassuministros', routerLineasSuministros);
+app.use('/proveedores', routerProveedores);
+app.use('/ordenescompras', routerOrdenesCompras);
+app.use('/facturasproveedor', routerFacturasProveedor); 
+app.use('/actividades', routerActividades);
+app.use('/actividadrequiereproducto', routerActividadRequiereProducto);
+app.use('/modelos', routerModelos);
 
 app.listen(3000, () => {
     console.log('Server running on port 3000');
