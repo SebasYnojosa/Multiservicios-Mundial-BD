@@ -29,8 +29,8 @@ router.get('/:CodServicio/:CodActividad', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const { CodServicio, CodActividad, DescA, Costo, TiempoMin, CodFichaSS, CantA, CostoAF, CodMantenimiento } = req.body;
-    new sql.Request().query(`INSERT INTO Actividades VALUES (${CodServicio}, '${CodActividad}', ${DescA}, '${Costo}', ${TiempoMin}, '${CodFichaSS}', ${CantA}, '${CostoAF}, ${CodMantenimiento})`, (err, data) => {
+    const { CodServicio, CodActividad, DescA, Costo, TiempoMin, CantA, CostoAF, CodMantenimiento } = req.body;
+    new sql.Request().query(`INSERT INTO Actividades VALUES (${CodServicio}, '${CodActividad}', ${DescA}, '${Costo}', ${TiempoMin}, ${CantA}, '${CostoAF}, ${CodMantenimiento})`, (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
@@ -54,8 +54,8 @@ router.delete('/:CodServicio/:CodActividad', (req, res) => {
 
 router.put('/:CodServicio/:CodActividad', (req, res) => {
     const { CodServicio, CodActividad } = req.params;
-    const { DescA, Costo, TiempoMin, CodFichaSS, CantA, CostoAF, CodMantenimiento } = req.body;
-    new sql.Request().query(`UPDATE Actividades SET DescA = '${DescA}, Costo = '${Costo}, TiempoMin = '${TiempoMin}, CodFichaSS = '${CodFichaSS}, CantA = '${CantA}, CostoAF = '${CostoAF}, CodMantenimiento = '${CodMantenimiento} WHERE CodServicio = ${CodServicio} AND CodActividad = ${CodActividad}`, (err, data) => {
+    const { DescA, Costo, TiempoMin, CantA, CostoAF, CodMantenimiento } = req.body;
+    new sql.Request().query(`UPDATE Actividades SET DescA = '${DescA}, Costo = '${Costo}, TiempoMin = '${TiempoMin}, CantA = '${CantA}, CostoAF = '${CostoAF}, CodMantenimiento = '${CodMantenimiento} WHERE CodServicio = ${CodServicio} AND CodActividad = ${CodActividad}`, (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
