@@ -39,4 +39,29 @@ router.post('/', (req, res) => {
     })
 })
 
+router.delete('/:Idtipo', (req, res) => {
+    const { Idtipo } = req.params;
+    new sql.Request().query(`DELETE FROM TipoVehiculos WHERE Idtipo = ${Idtipo}`, (err, data) => {
+        if (err) {
+            console.log('Error executing query: ' + err);
+        }
+        else {
+            res.send('TipoVehiculos eliminado');
+        }
+    })
+})
+
+router.put('/:Idtipo', (req, res) => {
+    const { Idtipo } = req.params;
+    const { DescripcionT } = req.body;
+    new sql.Request().query(`UPDATE TipoVehiculos SET DescripcionT = '${DescripcionT} WHERE Idtipo = ${Idtipo}`, (err, data) => {
+        if (err) {
+            console.log('Error executing query: ' + err);
+        }
+        else {
+            res.send('TipoVehiculos actualizado');
+        }
+    })
+})
+
 module.exports = router;

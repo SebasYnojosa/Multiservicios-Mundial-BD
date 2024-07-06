@@ -38,3 +38,30 @@ router.post('/', (req, res) => {
         }
     })
 })
+
+router.delete('/:CI', (req, res) => {
+    const { CI } = req.params;
+    new sql.Request().query(`DELETE FROM Personal WHERE CI = ${CI}`, (err, data) => {
+        if (err) {
+            console.log('Error executing query: ' + err);
+        }
+        else {
+            res.send('Multiservicio eliminado');
+        }
+    })
+})
+
+router.put('/:CI', (req, res) => {
+    const { CI } = req.params;
+    const { NombreC, Direccion, Telefono, Salario, RIFMultiServ } = req.body;
+    new sql.Request().query(`UPDATE Personal SET NombreC = '${NombreC}', Direccion = '${Direccion}', Telefono = ${Telefono}, Salario = ${Salario}, RIFMultiServ = ${RIFMultiServ} WHERE CI = ${CI}`, (err, data) => {
+        if (err) {
+            console.log('Error executing query: ' + err);
+        }
+        else {
+            res.send('Personal actualizado');
+        }
+    })
+})
+
+module.exports = router;
