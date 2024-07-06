@@ -3,7 +3,7 @@ var router = express.Router();
 var sql = require('../../Database/sqlConnection.js');
 
 router.get('/', (req, res) => {
-    new sql.Request().query('SELECT * FROM Multiservicios', (err, data) => {
+    new sql.Request().query('SELECT * FROM Personal', (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
@@ -14,9 +14,9 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/:RIF', (req, res) => {
-    const { RIF } = req.params;
-    new sql.Request().query(`SELECT * FROM Multiservicios WHERE RIF = ${RIF}`, (err, data) => {
+router.get('/:CI', (req, res) => {
+    const { CI } = req.params;
+    new sql.Request().query(`SELECT * FROM Personal WHERE CI = ${CI}`, (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
@@ -28,15 +28,13 @@ router.get('/:RIF', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const { RIF, Nombre, Ciudad, CIEncargado } = req.body;
-    new sql.Request().query(`INSERT INTO Multiservicios VALUES (${RIF}, '${Nombre}', '${Ciudad}', ${CIEncargado})`, (err, data) => {
+    const { CI, NombreC, Direccion, Telefono, Salario, RIFMultiserv } = req.body;
+    new sql.Request().query(`INSERT INTO Personal VALUES (${CI}, '${NombreC}', '${Direccion}', '${Telefono}', ${Salario}, ${RIFMultiserv})`, (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
         else {
-            res.send('Multiservicio agregado');
+            res.send('Personal agregado');
         }
     })
 })
-
-module.exports = router;
