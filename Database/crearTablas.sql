@@ -11,6 +11,8 @@ CREATE TABLE Multiservicios(
     PRIMARY KEY (RIF)
 )
 
+INSERT INTO Multiservicios VALUES (2, 'Multiservicios Meridiano', 'Caracas', 12345678)
+
 -- Tabla de tipos de vehiculos
 CREATE TABLE TipoVehiculos(
     Idtipo INT,

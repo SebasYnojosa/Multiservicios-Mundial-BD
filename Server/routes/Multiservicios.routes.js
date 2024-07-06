@@ -14,4 +14,16 @@ router.get('/', (req, res) => {
     })
 })
 
+router.post('/', (req, res) => {
+    const { RIF, Nombre, Ciudad, CIEncargado } = req.body;
+    new sql.Request().query(`INSERT INTO Multiservicios VALUES (${RIF}, '${Nombre}', '${Ciudad}', ${CIEncargado})`, (err, data) => {
+        if (err) {
+            console.log('Error executing query: ' + err);
+        }
+        else {
+            res.send('Multiservicio agregado');
+        }
+    })
+})
+
 module.exports = router;

@@ -4,6 +4,7 @@ const app = express();
 
 const routerMultiservicios = require('./routes/Multiservicios.routes.js');
 
+app.use(express.json());
 app.use('/multiservicios', routerMultiservicios);
 
 app.listen(3000, () => {
