@@ -204,7 +204,6 @@ CREATE TABLE Requisiciones(
     FOREIGN KEY (CodProducto) REFERENCES Productos(CodProducto)
 )
 
-
 -- Creacion de la Tabla LineasSuministros
 CREATE TABLE LineasSuministros(
     CodLinea INT,

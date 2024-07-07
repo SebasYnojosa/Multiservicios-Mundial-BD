@@ -87,4 +87,21 @@ router.put('/:CodServicio', (req, res) => {
         })
 })
 
+// Obtener las actividades de un servicio
+router.get('/actividades/:CodServicio', (req, res) => {
+    const { CodServicio } = req.params;
+    let query = `SELECT * FROM Actividades WHERE CodServicio = @CodServicio`;
+    new sql.Request()
+        .input('CodServicio', sql.Int, CodServicio)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
+})
+
 module.exports = router;
