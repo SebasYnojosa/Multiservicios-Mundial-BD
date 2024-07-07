@@ -204,9 +204,6 @@ CREATE TABLE Requisiciones(
     FOREIGN KEY (CodProducto) REFERENCES Productos(CodProducto)
 )
 
--- FK de la Tabla Productos
-ALTER TABLE Productos
-ADD FOREIGN KEY (CodReq) REFERENCES Requisiciones(CodReq)
 
 -- Creacion de la Tabla LineasSuministros
 CREATE TABLE LineasSuministros(
