@@ -279,12 +279,10 @@ CREATE TABLE Actividades(
     DescA VARCHAR(50) NOT NULL,
     Costo DECIMAL(10, 2) NOT NULL CHECK (Costo > 0),
     TiempoMin DATE,
-    CodMantenimiento INT NOT NULL,
     PRIMARY KEY (CodServicio, CodActividad),
     FOREIGN KEY (CodServicio) REFERENCES Servicios(CodServicio)
     ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    FOREIGN KEY (CodMantenimiento) REFERENCES Mantenimientos(CodMantenimiento)
+    ON UPDATE CASCADE
 )
 
 -- Creacion de la tabla de SolicitudPideActividades
@@ -532,18 +530,6 @@ CREATE TABLE ActividadesPorMantenimiento (
 )
 
 -- ActividadesPorMantenimiento ([CodS, CodAct,] -> (18), [CodMant] -> (11))
-
-CREATE TABLE LineaSumPorProveedor (
-    RIFProveedor INT,
-    CodLinea INT,
-    PRIMARY KEY (RIFProveedor, CodLinea),
-    FOREIGN KEY (RIFProveedor) REFERENCES Proveedores(RIFProveedor)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    FOREIGN KEY (CodLinea) REFERENCES LineasSuministros(CodLinea)
-)
-
--- (31) LineaSumPorProveedor ([RIFProveedor] -> (15), [CodLinea] -> (14))
 
 CREATE TABLE ProductoPorMultiservicio (
     RIFMult INT,

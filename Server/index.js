@@ -37,7 +37,6 @@ const routerProductoUsadoActividad = require('./routes/ProductoUsadoActividad.ro
 const routerMantenimientoPorModelo = require('./routes/MantenimientoPorModelo.routes.js');
 const routerProductoPorModelo = require('./routes/ProductoPorModelo.routes.js');
 const routerActividadesPorMantenimiento = require('./routes/ActividadesPorMantenimiento.routes.js');
-const routerLineaSumPorProveedor = require('./routes/LineaSumPorProveedor.routes.js');
 const routerProductoPorMultiservicio = require('./routes/ProductoPorMultiservicio.routes.js');
 const routerMultiserviciosEspecializadoTipoVehiculos = require('./routes/MultiserviciosEspecializadoTipoVehiculos.routes.js');
 
@@ -80,7 +79,6 @@ app.use('/producto/actividad', routerProductoUsadoActividad);
 app.use('/mantenimiento/modelo', routerMantenimientoPorModelo);
 app.use('/producto/modelo', routerProductoPorModelo);
 app.use('/actividades/mantenimiento', routerActividadesPorMantenimiento);
-app.use('/lineasum/proveedor', routerLineaSumPorProveedor);
 app.use('/producto/multiservicio', routerProductoPorMultiservicio);
 app.use('/multiservicios/tipovehiculos', routerMultiserviciosEspecializadoTipoVehiculos);
 
