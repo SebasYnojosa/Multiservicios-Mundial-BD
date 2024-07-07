@@ -3,7 +3,7 @@ const sql = require('mssql');
 const config = {
     server: 'localhost',
     user: 'sa',
-    password: 'sqlserver',
+    password: 'superdoe360', //sqlserver 
     database: 'MultiserviciosMundial',
     port: 1433,
     options: {
