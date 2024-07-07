@@ -113,7 +113,6 @@ CREATE TABLE Clientes(
 CREATE TABLE Vehiculos(
     CodVehiculo INT,
     Placa VARCHAR(25) NOT NULL,
-    Tipo VARCHAR(20) NOT NULL,
     CICliente INT NOT NULL,
     FechaAdq DATE NOT NULL,
     CodMarca INT NOT NULL,

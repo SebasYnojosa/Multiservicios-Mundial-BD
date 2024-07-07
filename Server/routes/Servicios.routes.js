@@ -16,52 +16,79 @@ router.get('/', (req, res) => {
 
 router.get('/:CodServicio', (req, res) => {
     const { CodServicio } = req.params;
-    new sql.Request().query(`SELECT * FROM Servicios WHERE CodServicio = ${CodServicio}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send(data.recordset);
-            console.dir(data.recordset);
-        }
-    })
+    let query = `SELECT * FROM Servicios WHERE CodServicio = @CodServicio`;
+    new sql.Request()
+        .input('CodServicio', sql.Int, CodServicio)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
 })
 
 router.post('/', (req, res) => {
     const { CodServicio, DescC, Monto, TiempoAnt, CIPersonal, RIFMultiServ, CodFacturaS, MontoDetalle } = req.body;
-    new sql.Request().query(`INSERT INTO Servicios VALUES (${CodServicio}, '${DescC}', '${Monto}', '${TiempoAnt}', '${CIPersonal}', '${RIFMultiServ}', '${CodFacturaS}', '${MontoDetalle}')`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('Servicio agregado');
-        }
-    })
+    let query = `INSERT INTO Servicios VALUES (@CodServicio, @DescC, @Monto, @TiempoAnt, @CIPersonal, @RIFMultiServ, @CodFacturaS, @MontoDetalle)`;
+    new sql.Request()
+        .input('CodServicio', sql.Int, CodServicio)
+        .input('DescC', sql.VarChar, DescC)
+        .input('Monto', sql.Decimal, Monto)
+        .input('TiempoAnt', sql.Time, TiempoAnt)
+        .input('CIPersonal', sql.Int, CIPersonal)
+        .input('RIFMultiServ', sql.Int, RIFMultiServ)
+        .input('CodFacturaS', sql.Int, CodFacturaS)
+        .input('MontoDetalle', sql.Decimal, MontoDetalle)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('Servicio agregado');
+            }
+        })
+    
 })
 
 router.delete('/:CodServicio', (req, res) => {
     const { CodServicio } = req.params;
-    new sql.Request().query(`DELETE FROM Servicios WHERE CodServicio = ${CodServicio}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('Servicio eliminado');
-        }
-    })
+    let query = `DELETE FROM Servicios WHERE CodServicio = @CodServicio`;
+    new sql.Request()
+        .input('CodServicio', sql.Int, CodServicio)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('Servicio eliminado');
+            }
+        })
 })
 
 router.put('/:CodServicio', (req, res) => {
     const { CodServicio } = req.params;
     const { DescC, Monto, TiempoAnt, CIPersonal, RIFMultiServ, CodFacturaS, MontoDetalle } = req.body;
-    new sql.Request().query(`UPDATE Servicios SET DescC = '${DescC}, Monto = '${Monto}, TiempoAnt = '${TiempoAnt}, CIPersonal = '${CIPersonal}, RIFMultiServ = '${RIFMultiServ}, CodFacturaS = '${CodFacturaS}, MontoDetalle = '${MontoDetalle} WHERE CodServicio = ${CodServicio}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('Servicio actualizado');
-        }
-    })
+    let query = `UPDATE Servicios SET DescC = @DescC, Monto = @Monto, TiempoAnt = @TiempoAnt, CIPersonal = @CIPersonal, RIFMultiServ = @RIFMultiServ, CodFacturaS = @CodFacturaS, MontoDetalle = @MontoDetalle WHERE CodServicio = @CodServicio}`;
+    new sql.Request()
+        .input('CodServicio', sql.Int, CodServicio)
+        .input('DescC', sql.VarChar, DescC)
+        .input('Monto', sql.Decimal, Monto)
+        .input('TiempoAnt', sql.Time, TiempoAnt)
+        .input('CIPersonal', sql.Int, CIPersonal)
+        .input('RIFMultiServ', sql.Int, RIFMultiServ)
+        .input('CodFacturaS', sql.Int, CodFacturaS)
+        .input('MontoDetalle', sql.Decimal, MontoDetalle)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('Servicio actualizado');
+            }
+        })
 })
 
 module.exports = router;

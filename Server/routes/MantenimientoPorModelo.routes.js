@@ -16,39 +16,60 @@ router.get('/', (req, res) => {
 
 router.get('/:CodMarca/:CodModelo/:CodMantenimiento/:TiempoUso/:Kilometraje', (req, res) => {
     const { CodMarca, CodModelo, CodMantenimiento, TiempoUso, Kilometraje } = req.params;
-    new sql.Request().query(`SELECT * FROM MantenimientoPorModelo WHERE CodMarca = ${CodMarca} AND CodModelo = ${CodModelo} AND CodMantenimiento = ${CodMantenimiento} AND TiempoUso = ${TiempoUso} AND Kilometraje = ${Kilometraje}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send(data.recordset);
-            console.dir(data.recordset);
-        }
-    })
+    let query = `SELECT * FROM MantenimientoPorModelo WHERE CodMarca = @CodMarca AND CodModelo = @CodModelo AND CodMantenimiento = @CodMantenimiento AND TiempoUso = @TiempoUso AND Kilometraje = @Kilometraje`;
+    new sql.Request()
+        .input('CodMarca', sql.Int, CodMarca)
+        .input('CodModelo', sql.Int, CodModelo)
+        .input('CodMantenimiento', sql.Int, CodMantenimiento)
+        .input('TiempoUso', sql.Time, TiempoUso)
+        .input('Kilometraje', sql.Int, Kilometraje)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
 })
 
 router.post('/', (req, res) => {
     const { CodMarca, CodModelo, CodMantenimiento, TiempoUso, Kilometraje } = req.body;
-    new sql.Request().query(`INSERT INTO MantenimientoPorModelo VALUES (${CodMarca}, '${CodModelo}', ${CodMantenimiento}, '${TiempoUso}', ${Kilometraje})`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('MantenimientoPorModelo agregado');
-        }
-    })
+    let query = `INSERT INTO MantenimientoPorModelo VALUES (@CodMarca, @CodModelo, @CodMantenimiento, @TiempoUso, @Kilometraje)`;
+    new sql.Request()
+        .input('CodMarca', sql.Int, CodMarca)
+        .input('CodModelo', sql.Int, CodModelo)
+        .input('CodMantenimiento', sql.Int, CodMantenimiento)
+        .input('TiempoUso', sql.Time, TiempoUso)
+        .input('Kilometraje', sql.Int, Kilometraje)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('MantenimientoPorModelo agregado');
+            }
+        })
 })
 
 router.delete('/:CodMarca/:CodModelo/:CodMantenimiento/:TiempoUso/:Kilometraje', (req, res) => {
     const { CodMarca, CodModelo, CodMantenimiento, TiempoUso, Kilometraje } = req.params;
-    new sql.Request().query(`DELETE FROM MantenimientoPorModelo WHERE CodMarca = ${CodMarca} AND CodModelo = ${CodModelo} AND CodMantenimiento = ${CodMantenimiento} AND TiempoUso = ${TiempoUso} AND Kilometraje = ${Kilometraje}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('MantenimientoPorModelo eliminado');
-        }
-    })
+    let query = `DELETE FROM MantenimientoPorModelo WHERE CodMarca = @CodMarca AND CodModelo = @CodModelo AND CodMantenimiento = @CodMantenimiento AND TiempoUso = @TiempoUso AND Kilometraje = @Kilometraje`;
+    new sql.Request()
+        .input('CodMarca', sql.Int, CodMarca)
+        .input('CodModelo', sql.Int, CodModelo)
+        .input('CodMantenimiento', sql.Int, CodMantenimiento)
+        .input('TiempoUso', sql.Time, TiempoUso)
+        .input('Kilometraje', sql.Int, Kilometraje)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('MantenimientoPorModelo eliminado');
+            }
+        })
 })
 
 module.exports = router;

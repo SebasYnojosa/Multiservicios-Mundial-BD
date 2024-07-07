@@ -16,52 +16,66 @@ router.get('/', (req, res) => {
 
 router.get('/:Idtipo', (req, res) => {
     const { Idtipo } = req.params;
-    new sql.Request().query(`SELECT * FROM TipoVehiculos WHERE Idtipo = ${Idtipo}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send(data.recordset);
-            console.dir(data.recordset);
-        }
-    })
+    let query = `SELECT * FROM TipoVehiculos WHERE Idtipo = @Idtipo`;
+    new sql.Request()
+        .input('Idtipo', sql.Int, Idtipo)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
 })
 
 router.post('/', (req, res) => {
     const { Idtipo, DescripcionT } = req.body;
-    new sql.Request().query(`INSERT INTO TipoVehiculos VALUES (${Idtipo}, '${DescripcionT}')`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('TipoVehiculo agregado');
-        }
-    })
+    let query = `INSERT INTO TipoVehiculos VALUES (@Idtipo, @DescripcionT)`;
+    new sql.Request()
+        .input('Idtipo', sql.Int, Idtipo)
+        .input('DescripcionT', sql.VarChar, DescripcionT)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('TipoVehiculos agregado');
+            }
+        })
 })
 
 router.delete('/:Idtipo', (req, res) => {
     const { Idtipo } = req.params;
-    new sql.Request().query(`DELETE FROM TipoVehiculos WHERE Idtipo = ${Idtipo}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('TipoVehiculos eliminado');
-        }
-    })
+    let query = `DELETE FROM TipoVehiculos WHERE Idtipo = @Idtipo`;
+    new sql.Request()
+        .input('Idtipo', sql.Int, Idtipo)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('TipoVehiculos eliminado');
+            }
+        })
 })
 
 router.put('/:Idtipo', (req, res) => {
     const { Idtipo } = req.params;
     const { DescripcionT } = req.body;
-    new sql.Request().query(`UPDATE TipoVehiculos SET DescripcionT = '${DescripcionT} WHERE Idtipo = ${Idtipo}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('TipoVehiculos actualizado');
-        }
-    })
+    let query = `UPDATE TipoVehiculos SET DescripcionT = @DescripcionT WHERE Idtipo = @Idtipo`;
+    new sql.Request()
+        .input('Idtipo', sql.Int, Idtipo)
+        .input('DescripcionT', sql.VarChar, DescripcionT)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('TipoVehiculos actualizado');
+            }
+        })
 })
 
 module.exports = router;

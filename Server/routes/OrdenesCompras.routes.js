@@ -16,52 +16,76 @@ router.get('/', (req, res) => {
 
 router.get('/:CodOrdenC', (req, res) => {
     const { CodOrdenC } = req.params;
-    new sql.Request().query(`SELECT * FROM OrdenesCompras WHERE CodOrdenC = ${CodOrdenC}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send(data.recordset);
-            console.dir(data.recordset);
-        }
-    })
+    let query = `SELECT * FROM OrdenesCompras WHERE CodOrdenC = @CodOrdenC`;
+    new sql.Request()
+        .input('CodOrdenC', sql.Int, CodOrdenC)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
 })
 
 router.post('/', (req, res) => {
     const { CodOrdenC, CodReq, CantidadComprar, PrecioCompra, CantidadEntregada, RIFProv, CodFacturaP } = req.body;
-    new sql.Request().query(`INSERT INTO OrdenesCompras VALUES (${CodOrdenC}, '${CodReq}', ${CantidadComprar}, '${PrecioCompra}', ${CantidadEntregada}, '${RIFProv}', ${CodFacturaP})`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('OrdenCompra agregado');
-        }
-    })
+    let query = `INSERT INTO OrdenesCompras VALUES (@CodOrdenC, @CodReq, @CantidadComprar, @PrecioCompra, @CantidadEntregada, @RIFProv, @CodFacturaP)`;
+    new sql.Request()
+        .input('CodOrdenC', sql.Int, CodOrdenC)
+        .input('CodReq', sql.Int, CodReq)
+        .input('CantidadComprar', sql.Int, CantidadComprar)
+        .input('PrecioCompra', sql.Decimal, PrecioCompra)
+        .input('CantidadEntregada', sql.Int, CantidadEntregada)
+        .input('RIFProv', sql.Int, RIFProv)
+        .input('CodFacturaP', sql.Int, CodFacturaP)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('OrdenCompra agregado');
+            }
+        })
 })
 
 router.delete('/:CodOrdenC', (req, res) => {
     const { CodOrdenC } = req.params;
-    new sql.Request().query(`DELETE FROM OrdenesCompras WHERE CodOrdenC = ${CodOrdenC}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('OrdenCompra eliminado');
-        }
-    })
+    let query = `DELETE FROM OrdenesCompras WHERE CodOrdenC = @CodOrdenC`;
+    new sql.Request()
+        .input('CodOrdenC', sql.Int, CodOrdenC)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('OrdenCompra eliminado');
+            }
+        })
 })
 
 router.put('/:CodOrdenC', (req, res) => {
     const { CodOrdenC } = req.params;
     const { CodReq, CantidadComprar, PrecioCompra, CantidadEntregada, RIFProv, CodFacturaP } = req.body;
-    new sql.Request().query(`UPDATE OrdenesCompras SET CodReq = '${CodReq}, CantidadComprar = '${CantidadComprar}, PrecioCompra = '${PrecioCompra}, CantidadEntregada = '${CantidadEntregada}, RIFProv = '${RIFProv}, CodFacturaP = '${CodFacturaP} WHERE CodOrdenC = ${CodOrdenC}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('OrdenCompra actualizado');
-        }
-    })
+    let query = `UPDATE OrdenesCompras SET CodReq = @CodReq, CantidadComprar = @CantidadComprar, PrecioCompra = @PrecioCompra, CantidadEntregada = @CantidadEntregada, RIFProv = @RIFProv, CodFacturaP = @CodFacturaP WHERE CodOrdenC = @CodOrdenC`;
+    new sql.Request()
+        .input('CodOrdenC', sql.Int, CodOrdenC)
+        .input('CodReq', sql.Int, CodReq)
+        .input('CantidadComprar', sql.Int, CantidadComprar)
+        .input('PrecioCompra', sql.Decimal, PrecioCompra)
+        .input('CantidadEntregada', sql.Int, CantidadEntregada)
+        .input('RIFProv', sql.Int, RIFProv)
+        .input('CodFacturaP', sql.Int, CodFacturaP)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('OrdenCompra actualizado');
+            }
+        })
 })
 
 module.exports = router;
