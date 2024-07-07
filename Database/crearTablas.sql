@@ -189,7 +189,7 @@ CREATE TABLE Productos(
     Ecologico CHAR(1) NOT NULL CHECK (Ecologico IN ('S', 'N')),
     CodLinea INT NOT NULL,
     PRIMARY KEY (CodProducto),
-    FOREIGN KEY (CodFacturaT) REFERENCES FacturasTiendas(CodFacturaT)
+    FOREIGN KEY (CodLinea) REFERENCES LineasSuministros(CodLinea)
     ON DELETE NO ACTION
     ON UPDATE CASCADE
 )
