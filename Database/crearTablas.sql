@@ -445,7 +445,7 @@ CREATE TABLE PersonalRealizaServicio(
 CREATE TABLE DetalleFacturasServicios(
     CodF INT,
     CodServ INT,
-    MontoDetalle DECIMAL(10, 2) NOT NULL CHECK (MontoDetalle > 0),
+    MontoDetalle DECIMAL(10, 2) CHECK (MontoDetalle > 0) DEFAULT 0.00,
     PRIMARY KEY (CodF, CodServ),
     FOREIGN KEY (CodF) REFERENCES FacturasServicios(CodFacturaS)
     ON DELETE CASCADE
@@ -476,8 +476,8 @@ CREATE TABLE ReservaApartaActividad (
 CREATE TABLE DetalleFacturaTienda (
     CodF INT,
     CodP INT,
-    Cantidad INT NOT NULL CHECK (Cantidad > 0),
-    PrecioT DECIMAL(10, 2) NOT NULL CHECK (PrecioT > 0),
+    Cantidad INT NOT NULL CHECK (Cantidad > 0) DEFAULT 0,
+    PrecioT DECIMAL(10, 2) NOT NULL CHECK (PrecioT > 0) DEFAULT 0.00,
     PRIMARY KEY (CodF, CodP),
     FOREIGN KEY (CodF) REFERENCES FacturasTiendas(CodFacturaT)
     ON DELETE CASCADE

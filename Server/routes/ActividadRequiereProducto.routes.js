@@ -16,52 +16,74 @@ router.get('/', (req, res) => {
 
 router.get('/:CodS/:CodAct/:CodP', (req, res) => {
     const { CodS, CodAct, CodP } = req.params;
-    new sql.Request().query(`SELECT * FROM ActividadRequiereProducto WHERE CodS = ${CodS} AND CodAct = ${CodAct} AND CodP = ${CodP}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send(data.recordset);
-            console.dir(data.recordset);
-        }
-    })
+    let query = `SELECT * FROM ActividadRequiereProducto WHERE CodS = @CodS AND CodAct = @CodAct AND CodP = @CodP`;
+    new sql.Request()
+        .input('CodS', sql.Int, CodS)
+        .input('CodAct', sql.Int, CodAct)
+        .input('CodP', sql.Int, CodP)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
 })
 
 router.post('/', (req, res) => {
     const { CodS, CodAct, CodP, Cantidad } = req.body;
-    new sql.Request().query(`INSERT INTO ActividadRequiereProducto VALUES (${CodS}, '${CodAct}', ${CodP}, '${Cantidad}')`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('ActividadRequiereProducto agregado');
-        }
-    })
+    let query = `INSERT INTO ActividadRequiereProducto VALUES (@CodS, @CodAct, @CodP, @Cantidad)`;
+    new sql.Request()
+        .input('CodS', sql.Int, CodS)
+        .input('CodAct', sql.Int, CodAct)
+        .input('CodP', sql.Int, CodP)
+        .input('Cantidad', sql.Int, Cantidad)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('ActividadRequiereProducto agregado');
+            }
+        })
 })
 
 router.delete('/:CodS/:CodAct/:CodP', (req, res) => {
     const { CodS, CodAct, CodP } = req.params;
-    new sql.Request().query(`DELETE FROM ActividadRequiereProducto WHERE CodS = ${CodS} AND CodAct = ${CodAct} AND CodP = ${CodP}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('ActividadRequiereProducto eliminado');
-        }
-    })
+    let query = `DELETE FROM ActividadRequiereProducto WHERE CodS = @CodS AND CodAct = @CodAct AND CodP = @CodP`;
+    new sql.Request()
+        .input('CodS', sql.Int, CodS)
+        .input('CodAct', sql.Int, CodAct)
+        .input('CodP', sql.Int, CodP)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('ActividadRequiereProducto eliminado');
+            }
+        })
 })
 
 router.put('/:CodS/:CodAct/:CodP', (req, res) => {
     const { CodS, CodAct, CodP } = req.params;
     const { Cantidad } = req.body;
-    new sql.Request().query(`UPDATE ActividadRequiereProducto SET Cantidad = '${Cantidad} WHERE CodS = ${CodS} AND CodAct = ${CodAct} AND CodP = ${CodP}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('ActividadRequiereProducto actualizado');
-        }
-    })
+    let query = `UPDATE ActividadRequiereProducto SET Cantidad = @Cantidad WHERE CodS = @CodS AND CodAct = @CodAct AND CodP = @CodP`;
+    new sql.Request()
+        .input('CodS', sql.Int, CodS)
+        .input('CodAct', sql.Int, CodAct)
+        .input('CodP', sql.Int, CodP)
+        .input('Cantidad', sql.Int, Cantidad)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('ActividadRequiereProducto actualizado');
+            }
+        })
 })
 
 module.exports = router;

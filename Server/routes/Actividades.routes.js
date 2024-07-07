@@ -16,53 +16,76 @@ router.get('/', (req, res) => {
 
 router.get('/:CodServicio/:CodActividad', (req, res) => {
     const { CodServicio, CodActividad } = req.params;
-    console.log(CodServicio + '&' + CodActividad);
-    new sql.Request().query(`SELECT * FROM Actividades WHERE CodServicio = ${CodServicio} AND CodActividad = ${CodActividad}` , (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send(data.recordset);
-            console.dir(data.recordset);
-        }
-    })
+    let query = `SELECT * FROM Actividades WHERE CodServicio = @CodServicio AND CodActividad = @CodActividad`;
+    new sql.Request()
+        .input('CodServicio', sql.Int, CodServicio)
+        .input('CodActividad', sql.Int, CodActividad)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
 })
 
 router.post('/', (req, res) => {
-    const { CodServicio, CodActividad, DescA, Costo, TiempoMin, CantA, CostoAF, CodMantenimiento } = req.body;
-    new sql.Request().query(`INSERT INTO Actividades VALUES (${CodServicio}, '${CodActividad}', ${DescA}, '${Costo}', ${TiempoMin}, ${CantA}, '${CostoAF}, ${CodMantenimiento})`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('Actividad agregado');
-        }
-    })
+    const { CodServicio, CodActividad, DescA, Costo, TiempoMin, CodMantenimiento } = req.body;
+    let query = `INSERT INTO Actividades VALUES (@CodServicio, @CodActividad, @DescA, @Costo, @TiempoMin, @CodMantenimiento)`;
+    new sql.Request()
+        .input('CodServicio', sql.Int, CodServicio)
+        .input('CodActividad', sql.Int, CodActividad)
+        .input('DescA', sql.VarChar, DescA)
+        .input('Costo', sql.Decimal, Costo)
+        .input('TiempoMin', sql.DateTime, TiempoMin)
+        .input('CodMantenimiento', sql.Int, CodMantenimiento)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('Actividad agregado');
+            }
+        })
 })
 
 router.delete('/:CodServicio/:CodActividad', (req, res) => {
     const { CodServicio, CodActividad } = req.params;
-    new sql.Request().query(`DELETE FROM Actividades WHERE CodServicio = ${CodServicio} AND CodActividad = ${CodActividad}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('Actividad eliminado');
-        }
-    })
+    let query = `DELETE FROM Actividades WHERE CodServicio = @CodServicio AND CodActividad = @CodActividad`;
+    new sql.Request()
+        .input('CodServicio', sql.Int, CodServicio)
+        .input('CodActividad', sql.Int, CodActividad)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('Actividad eliminado');
+            }
+        })
 })
 
 router.put('/:CodServicio/:CodActividad', (req, res) => {
     const { CodServicio, CodActividad } = req.params;
-    const { DescA, Costo, TiempoMin, CantA, CostoAF, CodMantenimiento } = req.body;
-    new sql.Request().query(`UPDATE Actividades SET DescA = '${DescA}, Costo = '${Costo}, TiempoMin = '${TiempoMin}, CantA = '${CantA}, CostoAF = '${CostoAF}, CodMantenimiento = '${CodMantenimiento} WHERE CodServicio = ${CodServicio} AND CodActividad = ${CodActividad}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('Actividad actualizado');
-        }
-    })
+    const { DescA, Costo, TiempoMin, CodMantenimiento } = req.body;
+    let query = `UPDATE Actividades SET DescA = @DescA, Costo = @Costo, TiempoMin = @TiempoMin, CodMantenimiento = @CodMantenimiento WHERE CodServicio = @CodServicio AND CodActividad = @CodActividad`;
+    new sql.Request()
+        .input('CodServicio', sql.Int, CodServicio)
+        .input('CodActividad', sql.Int, CodActividad)
+        .input('DescA', sql.VarChar, DescA)
+        .input('Costo', sql.Decimal, Costo)
+        .input('TiempoMin', sql.DateTime, TiempoMin)
+        .input('CodMantenimiento', sql.Int, CodMantenimiento)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('Actividad actualizado');
+            }
+        })
 })
 
 module.exports = router;

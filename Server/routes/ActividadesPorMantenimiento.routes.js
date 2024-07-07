@@ -16,39 +16,54 @@ router.get('/', (req, res) => {
 
 router.get('/:CodS/:CodAct/:CodMant', (req, res) => {
     const { CodS, CodAct, CodMant } = req.params;
-    new sql.Request().query(`SELECT * FROM ActividadesPorMantenimiento WHERE CodS = ${CodS} AND CodAct = ${CodAct} AND CodMant = ${CodMant}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send(data.recordset);
-            console.dir(data.recordset);
-        }
-    })
+    let query = `SELECT * FROM ActividadesPorMantenimiento WHERE CodS = @CodS AND CodAct = @CodAct AND CodMant = @CodMant`;
+    new sql.Request()
+        .input('CodS', sql.Int, CodS)
+        .input('CodAct', sql.Int, CodAct)
+        .input('CodMant', sql.Int, CodMant)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
 })
 
 router.post('/', (req, res) => {
     const { CodS, CodAct, CodMant } = req.body;
-    new sql.Request().query(`INSERT INTO ActividadesPorMantenimiento VALUES (${CodS}, '${CodAct}', ${CodMant})`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('ActividadesPorMantenimiento agregado');
-        }
-    })
+    let query = `INSERT INTO ActividadesPorMantenimiento VALUES (@CodS, @CodAct, @CodMant)`;
+    new sql.Request()
+        .input('CodS', sql.Int, CodS)
+        .input('CodAct', sql.Int, CodAct)
+        .input('CodMant', sql.Int, CodMant)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('ActividadPorMantenimiento agregado');
+            }
+        })
 })
 
 router.delete('/:CodS/:CodAct/:CodMant', (req, res) => {
     const { CodS, CodAct, CodMant } = req.params;
-    new sql.Request().query(`DELETE FROM ActividadesPorMantenimiento WHERE CodS = ${CodS} AND CodAct = ${CodAct} AND CodMant = ${CodMant}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('ActividadPorMantenimiento eliminado');
-        }
-    })
+    let query = `DELETE FROM ActividadesPorMantenimiento WHERE CodS = @CodS AND CodAct = @CodAct AND CodMant = @CodMant`;
+    new sql.Request()
+        .input('CodS', sql.Int, CodS)
+        .input('CodAct', sql.Int, CodAct)
+        .input('CodMant', sql.Int, CodMant)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('ActividadPorMantenimiento eliminado');
+            }
+        })
 })
 
 module.exports = router;

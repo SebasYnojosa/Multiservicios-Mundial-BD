@@ -16,52 +16,51 @@ router.get('/', (req, res) => {
 
 router.get('/:CodF/:CodP', (req, res) => {
     const { CodF, CodP } = req.params;
-    new sql.Request().query(`SELECT * FROM DetalleFacturaTienda WHERE CodF = ${CodF} AND CodP = ${CodP}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send(data.recordset);
-            console.dir(data.recordset);
-        }
-    })
+    let query = `SELECT * FROM DetalleFacturaTienda WHERE CodF = @CodF AND CodP = @CodP`;
+    new sql.Request()
+        .input('CodF', sql.Int, CodF)
+        .input('CodP', sql.Int, CodP)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
 })
 
 router.post('/', (req, res) => {
-    const { CodF, CodP, Cantidad, PrecioT } = req.body;
-    new sql.Request().query(`INSERT INTO DetalleFacturaTienda VALUES (${CodF}, '${CodP}', ${Cantidad}, '${PrecioT}')`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('DetalleFacturaTienda agregado');
-        }
-    })
+    const { CodF, CodP } = req.body;
+    let query = `INSERT INTO DetalleFacturaTienda VALUES (@CodF, @CodP)`;
+    new sql.Request()
+        .input('CodF', sql.Int, CodF)
+        .input('CodP', sql.Int, CodP)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('DetalleFacturaTienda agregado');
+            }
+        })
 })
 
 router.delete('/:CodF/:CodP', (req, res) => {
     const { CodF, CodP } = req.params;
-    new sql.Request().query(`DELETE FROM DetalleFacturaTienda WHERE CodF = ${CodF} AND CodP = ${CodP}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('DetalleFacturaTienda eliminado');
-        }
-    })
-})
-
-router.put('/:CodF/:CodP', (req, res) => {
-    const { CodF, CodP } = req.params;
-    const { Cantidad, PrecioT } = req.body;
-    new sql.Request().query(`UPDATE DetalleFacturaTienda SET Cantidad = '${Cantidad}, PrecioT = '${PrecioT}' WHERE CodF = ${CodF} AND CodP = ${CodP}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('DetalleFacturaTienda actualizado');
-        }
-    })
+    let query = `DELETE FROM DetalleFacturaTienda WHERE CodF = @CodF AND CodP = @CodP`;
+    new sql.Request()
+        .input('CodF', sql.Int, CodF)
+        .input('CodP', sql.Int, CodP)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else { 
+                res.send('DetalleFacturaTienda eliminado');
+            }
+        })
 })
 
 module.exports = router;
