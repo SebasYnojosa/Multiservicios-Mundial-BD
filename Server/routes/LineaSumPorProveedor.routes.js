@@ -16,39 +16,51 @@ router.get('/', (req, res) => {
 
 router.get('/:RIFProveedor/:CodLinea', (req, res) => {
     const { RIFProveedor, CodLinea } = req.params;
-    new sql.Request().query(`SELECT * FROM LineaSumPorProveedor WHERE RIFProveedor = ${RIFProveedor} AND CodLinea = ${CodLinea}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send(data.recordset);
-            console.dir(data.recordset);
-        }
-    })
+    let query = `SELECT * FROM LineaSumPorProveedor WHERE RIFProveedor = @RIFProveedor AND CodLinea = @CodLinea`;
+    new sql.Request()
+        .input('RIFProveedor', sql.Int, RIFProveedor)
+        .input('CodLinea', sql.Int, CodLinea)
+        .query(query, (err,data) => {
+            if(err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
 })
 
 router.post('/', (req, res) => {
     const { RIFProveedor, CodLinea } = req.body;
-    new sql.Request().query(`INSERT INTO LineaSumPorProveedor VALUES (${RIFProveedor}, '${CodLinea}'`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('LineaSumPorProveedor agregado');
-        }
-    })
+    let query = `INSERT INTO LineaSumPorProveedor VALUES (@RIFProveedor, @CodLinea)`;
+    new sql.Request()
+        .input('RIFProveedor', sql.Int, RIFProveedor)
+        .input('CodLinea', sql.Int, CodLinea)
+        .query(query, (err, data) => {
+            if(err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('LineaSumPorProveedor agregado');
+            }
+        })
 })
 
 router.delete('/:RIFProveedor/:CodLinea', (req, res) => {
     const { RIFProveedor, CodLinea } = req.params;
-    new sql.Request().query(`DELETE FROM LineaSumPorProveedor WHERE RIFProveedor = ${RIFProveedor} AND CodLinea = ${CodLinea}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('LineaSumPorProveedor eliminado');
-        }
-    })
+    let query = `DELETE FROM LineaSumPorProveedor WHERE RIFProveedor = @RIFProveedor AND CodLinea = @CodLinea`;
+    new sql.Request()
+        .input('RIFProveedor', sql.Int, RIFProveedor)
+        .input('CodLinea', sql.Int, CodLinea)
+        .query(query, (err, data) => {
+            if(err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('LineaSumPorProveedor eliminado');
+            }
+        })
 })
 
 module.exports = router;
