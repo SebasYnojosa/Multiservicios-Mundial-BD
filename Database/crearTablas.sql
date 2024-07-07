@@ -61,12 +61,6 @@ CREATE TABLE FacturasServicios(
     PRIMARY KEY (CodFacturaS)
 )
 
--- FK de Tabla Servicios
-ALTER TABLE Servicios
-ADD FOREIGN KEY (CodFacturaS) REFERENCES FacturasServicios(CodFacturaS)
-ON DELETE NO ACTION
-ON UPDATE CASCADE
-
 -- Creacion de la Tabla Descuentos
 CREATE TABLE Descuentos(
     CodDescuento INT,
