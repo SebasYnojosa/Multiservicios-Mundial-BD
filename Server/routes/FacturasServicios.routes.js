@@ -31,8 +31,8 @@ router.get('/:CodFacturaS', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const { CodFacturaS, FechaE, Monto, CodVehiculo } = req.body;
-    let query = `INSERT INTO FacturasServicios VALUES (@CodFacturaS, @FechaE, @Monto, @CodVehiculo)`;
+    const { CodFacturaS, FechaE, CodVehiculo } = req.body;
+    let query = `INSERT INTO FacturasServicios VALUES (@CodFacturaS, @FechaE, @CodVehiculo)`;
     new sql.Request()
         .input('CodFacturaS', sql.Int, CodFacturaS)
         .input('FechaE', sql.Date, FechaE)
@@ -65,8 +65,8 @@ router.delete('/:CodFacturaS', (req, res) => {
 
 router.put('/:CodFacturaS', (req, res) => {
     const { CodFacturaS } = req.params;
-    const { FechaE, Monto, CodVehiculo } = req.body;
-    let query = `UPDATE FacturasServicios SET FechaE = @FechaE, Monto = @Monto, CodVehiculo = @CodVehiculo WHERE CodFacturaS = @CodFacturaS`;
+    const { FechaE, CodVehiculo } = req.body;
+    let query = `UPDATE FacturasServicios SET FechaE = @FechaE, CodVehiculo = @CodVehiculo WHERE CodFacturaS = @CodFacturaS`;
     new sql.Request()
         .input('CodFacturaS', sql.Int, CodFacturaS)
         .input('FechaE', sql.Date, FechaE)

@@ -1,8 +1,6 @@
 CREATE DATABASE MultiserviciosMundial
 USE MultiserviciosMundial
 
-DROP DATABASE MultiserviciosMundial
-
 -- Creacion de Tabla Multiservicios
 CREATE TABLE Multiservicios(
     RIF INT,
@@ -376,7 +374,6 @@ CREATE TABLE PagosTiendas(
                                          AND Banco IS NOT NULL)
 )
 
-DROP TABLE PagosTiendas
 
 CREATE TABLE PagosServicios(
     CodFacturaS INT,
