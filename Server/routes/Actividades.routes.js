@@ -81,6 +81,7 @@ router.put('/:CodServicio/:CodActividad', (req, res) => {
         .query(query, (err, data) => {
             if (err) {
                 console.log('Error executing query: ' + err);
+                
             }
             else {
                 res.send('Actividad actualizado');

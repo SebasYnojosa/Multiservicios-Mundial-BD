@@ -82,4 +82,23 @@ router.put('/:RIF', (req, res) => {
         })
 })
 
+// Ruta para agregar encargado a un multiservicio
+router.put('/encargado/:RIF', (req, res) => {
+    const { RIF } = req.body;
+    const { CIEncargado } = req.params;
+    let query = `UPDATE Multiservicios SET CIEncargado = @CIEncargado WHERE RIF = @RIF`;
+    new sql.Request()
+        .input('RIF', sql.Int, RIF)
+        .input('CIEncargado', sql.Int, CIEncargado)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+                res.status(500).send('Error al agregar encargado al multiservicio');
+            }
+            else {
+                res.send('Encargado agregado al multiservicio');
+            }
+        })
+})
+
 module.exports = router;

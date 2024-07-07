@@ -16,52 +16,74 @@ router.get('/', (req, res) => {
 
 router.get('/:CI', (req, res) => {
     const { CI } = req.params;
-    new sql.Request().query(`SELECT * FROM Personal WHERE CI = ${CI}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send(data.recordset);
-            console.dir(data.recordset);
-        }
-    })
+    let query = `SELECT * FROM Personal WHERE CI = @CI`;
+    new sql.Request()
+        .input('CI', sql.Int, CI)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
 })
 
 router.post('/', (req, res) => {
     const { CI, NombreC, Direccion, Telefono, Salario, RIFMultiserv } = req.body;
-    new sql.Request().query(`INSERT INTO Personal VALUES (${CI}, '${NombreC}', '${Direccion}', '${Telefono}', ${Salario}, ${RIFMultiserv})`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('Personal agregado');
-        }
-    })
+    let query = `INSERT INTO Personal VALUES (@CI, @NombreC, @Direccion, @Telefono, @Salario, @RIFMultiserv)`;
+    new sql.Request()
+        .input('CI', sql.Int, CI)
+        .input('NombreC', sql.VarChar, NombreC)
+        .input('Direccion', sql.VarChar, Direccion)
+        .input('Telefono', sql.VarChar, Telefono)
+        .input('Salario', sql.Decimal, Salario)
+        .input('RIFMultiserv', sql.Int, RIFMultiserv)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('Personal agregado');
+            }
+        })
 })
 
 router.delete('/:CI', (req, res) => {
     const { CI } = req.params;
-    new sql.Request().query(`DELETE FROM Personal WHERE CI = ${CI}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('Multiservicio eliminado');
-        }
-    })
+    let query = `DELETE FROM Personal WHERE CI = @CI`;
+    new sql.Request()
+        .input('CI', sql.Int, CI)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('Personal eliminado');
+            }
+        })
 })
 
 router.put('/:CI', (req, res) => {
     const { CI } = req.params;
     const { NombreC, Direccion, Telefono, Salario, RIFMultiServ } = req.body;
-    new sql.Request().query(`UPDATE Personal SET NombreC = '${NombreC}', Direccion = '${Direccion}', Telefono = ${Telefono}, Salario = ${Salario}, RIFMultiServ = ${RIFMultiServ} WHERE CI = ${CI}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('Personal actualizado');
-        }
-    })
+    let query = `UPDATE Personal SET NombreC = @NombreC, Direccion = @Direccion, Telefono = @Telefono, Salario = @Salario, RIFMultiServ = @RIFMultiServ WHERE CI = @CI`;
+    new sql.Request()
+        .input('CI', sql.Int, CI)
+        .input('NombreC', sql.VarChar, NombreC)
+        .input('Direccion', sql.VarChar, Direccion)
+        .input('Telefono', sql.VarChar, Telefono)
+        .input('Salario', sql.Decimal, Salario)
+        .input('RIFMultiServ', sql.Int, RIFMultiServ)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('Personal actualizado');
+            }
+        })
 })
 
 module.exports = router;

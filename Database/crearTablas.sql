@@ -1,14 +1,17 @@
 CREATE DATABASE MultiserviciosMundial
 USE MultiserviciosMundial
 
+DROP DATABASE MultiserviciosMundial
+
 -- Creacion de Tabla Multiservicios
 CREATE TABLE Multiservicios(
     RIF INT,
     Nombre VARCHAR(25) NOT NULL,
     Ciudad VARCHAR(30) NOT NULL, -- Eliminar el atributo especializacion del diagrama
-    CIEncargado INT NOT NULL UNIQUE,
+    CIEncargado INT,
+    FInicioEncargado DATE,
     PRIMARY KEY (RIF),
-    FOREIGN KEY (CIEncargado) REFERENCES Encargados(CIEncargado)
+    FOREIGN KEY (CIEncargado) REFERENCES Personal(CI)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 )
@@ -33,18 +36,6 @@ CREATE TABLE Personal(
     ON DELETE CASCADE
     ON UPDATE CASCADE
 )
-
-
--- Creacion de la Tabla Encargados
-CREATE TABLE Encargados(
-    CIEncargado INT,
-    FInicioEncargado DATE NOT NULL,
-    PRIMARY KEY (CIEncargado),
-    FOREIGN KEY (CIEncargado) REFERENCES Personal(CI)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-)
-
 
 -- Creacion de la Tabla Servicios
 CREATE TABLE Servicios(
@@ -279,8 +270,6 @@ CREATE TABLE FacturasProveedor(
 -- FK de la Tabla OrdenesCompras
 ALTER TABLE OrdenesCompras
 ADD FOREIGN KEY (CodFacturaP) REFERENCES FacturasProveedor(CodFactura)
-ON DELETE NO ACTION
-ON UPDATE CASCADE
 
 -- Creacion de la Tabla Actividades
 CREATE TABLE Actividades(
@@ -340,8 +329,6 @@ CREATE TABLE Modelos(
 -- FK de la Tabla Vehiculos
 ALTER TABLE Vehiculos
 ADD FOREIGN KEY (CodMarca, CodModelo) REFERENCES Modelos(CodMarca, CodModelo)
-ON DELETE NO ACTION
-ON UPDATE CASCADE
 
 -- Creacion de la Tabla Pagos
 CREATE TABLE PagosTiendas(
@@ -360,7 +347,7 @@ CREATE TABLE PagosTiendas(
     FOREIGN KEY (CodFacturaT) REFERENCES FacturasTiendas(CodFacturaT)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-    CONSTRAINT CHK_E CHECK ((Tipo = 'E' AND Moneda IS NOT NULL
+    CONSTRAINT CHK_PagosTiendas CHECK ((Tipo = 'E' AND Moneda IS NOT NULL
                                        AND Telefono IS NULL
                                        AND Fecha IS NULL
                                        AND Referencia IS NULL
@@ -388,6 +375,8 @@ CREATE TABLE PagosTiendas(
                                          AND Banco IS NOT NULL)
 )
 
+DROP TABLE PagosTiendas
+
 CREATE TABLE PagosServicios(
     CodFacturaS INT,
     CodPago INT,
@@ -404,7 +393,7 @@ CREATE TABLE PagosServicios(
     FOREIGN KEY (CodFacturaS) REFERENCES FacturasServicios(CodFacturaS)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-    CONSTRAINT CHK_E CHECK ((Tipo = 'E' AND Moneda IS NOT NULL
+    CONSTRAINT CHK_PagosServicios CHECK ((Tipo = 'E' AND Moneda IS NOT NULL
                                        AND Telefono IS NULL
                                        AND Fecha IS NULL
                                        AND Referencia IS NULL
@@ -510,12 +499,8 @@ CREATE TABLE MantenimientoPorModelo (
     TiempoUso TIME NOT NULL,
     Kilometraje INT NOT NULL CHECK (Kilometraje > 0),
     PRIMARY KEY (CodMarca, CodModelo, CodMantenimiento, TiempoUso, Kilometraje),
-    FOREIGN KEY (CodMarca, CodModelo) REFERENCES Modelos(CodMarca, CodModelo)
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
+    FOREIGN KEY (CodMarca, CodModelo) REFERENCES Modelos(CodMarca, CodModelo),
     FOREIGN KEY (CodMantenimiento) REFERENCES Mantenimientos(CodMantenimiento)
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE
 )
 
 -- (28) MantenimientoPorModelo ([CodMarca, CodModelo] -> (19),
