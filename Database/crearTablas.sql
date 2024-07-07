@@ -187,11 +187,6 @@ CREATE TABLE Productos(
     Descripcion VARCHAR(50) NOT NULL,
     Precio DECIMAL(10, 2) NOT NULL CHECK (Precio > 0),
     Ecologico CHAR(1) NOT NULL CHECK (Ecologico IN ('S', 'N')),
-    CodFacturaT INT NOT NULL,
-    CantidadP INT NOT NULL,
-    PrecioT INT NULL,
-    CodReq INT NOT NULL,
-    CantProd INT NOT NULL,
     CodLinea INT NOT NULL,
     PRIMARY KEY (CodProducto),
     FOREIGN KEY (CodFacturaT) REFERENCES FacturasTiendas(CodFacturaT)
@@ -203,7 +198,10 @@ CREATE TABLE Productos(
 CREATE TABLE Requisiciones(
     CodReq INT,
     FechaGenerada DATE NOT NULL,
-    PRIMARY KEY (CodReq)
+    CodProducto INT NOT NULL,
+    CantProd INT NOT NULL,
+    PRIMARY KEY (CodReq),
+    FOREIGN KEY (CodProducto) REFERENCES Productos(CodProducto)
 )
 
 -- FK de la Tabla Productos

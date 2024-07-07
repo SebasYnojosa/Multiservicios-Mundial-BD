@@ -31,11 +31,13 @@ router.get('/:CodReq', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const { CodReq, FechaGenerada } = req.body;
-    let query = `INSERT INTO Requisiciones VALUES (@CodReq, @FechaGenerada)`;
+    const { CodReq, FechaGenerada, CodProducto, CantProd } = req.body;
+    let query = `INSERT INTO Requisiciones VALUES (@CodReq, @FechaGenerada, @CodProducto, @CantProd)`;
     new sql.Request()
         .input('CodReq', sql.Int, CodReq)
         .input('FechaGenerada', sql.Date, FechaGenerada)
+        .input('CodProducto', sql.Int, CodProducto)
+        .input('CantProd', sql.Int, CantProd)
         .query(query, (err, data) => {
             if (err) {
                 console.log('Error executing query: ' + err);
@@ -63,11 +65,13 @@ router.delete('/:CodReq', (req, res) => {
 
 router.put('/:CodReq', (req, res) => {
     const { CodReq } = req.params;
-    const { FechaGenerada } = req.body;
-    let query = `UPDATE Requisiciones SET FechaGenerada = @FechaGenerada WHERE CodReq = @CodReq`;
+    const { FechaGenerada, CodProducto, CantProd } = req.body;
+    let query = `UPDATE Requisiciones SET FechaGenerada = @FechaGenerada, CodProducto = @CodProducto, CantProd = @CantProd WHERE CodReq = @CodReq`;
     new sql.Request()
         .input('CodReq', sql.Int, CodReq)
         .input('FechaGenerada', sql.Date, FechaGenerada)
+        .input('CodProducto', sql.Int, CodProducto)
+        .input('CantProd', sql.Int, CantProd)
         .query(query, (err, data) => {
             if (err) {
                 console.log('Error executing query: ' + err);

@@ -31,19 +31,14 @@ router.get('/:CodProducto', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const { CodProducto, Nombre, Descripcion, Precio, Ecologico, CodFacturaT, CantidadP, PrecioT, CodReq, CantProd, CodLinea } = req.body;
-    let query = `INSERT INTO Productos VALUES (@CodProducto, @Nombre, @Descripcion, @Precio, @Ecologico, @CodFacturaT, @CantidadP, @PrecioT, @CodReq, @CantProd, @CodLinea)`;
+    const { CodProducto, Nombre, Descripcion, Precio, Ecologico, CodLinea } = req.body;
+    let query = `INSERT INTO Productos VALUES (@CodProducto, @Nombre, @Descripcion, @Precio, @Ecologico, @CodLinea)`;
     new sql.Request()
         .input('CodProducto', sql.Int, CodProducto)
         .input('Nombre', sql.VarChar, Nombre)
         .input('Descripcion', sql.VarChar, Descripcion)
         .input('Precio', sql.Decimal, Precio)
         .input('Ecologico', sql.Char, Ecologico)
-        .input('CodFacturaT', sql.Int, CodFacturaT)
-        .input('CantidadP', sql.Int, CantidadP)
-        .input('PrecioT', sql.Int, PrecioT)
-        .input('CodReq', sql.Int, CodReq)
-        .input('CantProd', sql.Int, CantProd)
         .input('CodLinea', sql.Int, CodLinea)
         .query(query, (err, data) => {
             if (err) {
@@ -72,19 +67,14 @@ router.delete('/:CodProducto', (req, res) => {
 
 router.put('/:CodProducto', (req, res) => {
     const { CodProducto } = req.params;
-    const { Nombre, Descripcion, Precio, Ecologico, CodFacturaT, CantidadP, PrecioT, CodReq, CantProd, CodLinea } = req.body;
-    let query = `UPDATE Productos SET Nombre = @Nombre, Descripcion = @Descripcion, Precio = @Precio, Ecologico = @Ecologico, CodFacturaT = @CodFacturaT, CantidadP = @CantidadP, PrecioT = @PrecioT, CodReq = @CodReq, CantProd = @CantProd, CodLinea = @CodLinea WHERE CodProducto = @CodProducto`;
+    const { Nombre, Descripcion, Precio, Ecologico, CodLinea } = req.body;
+    let query = `UPDATE Productos SET Nombre = @Nombre, Descripcion = @Descripcion, Precio = @Precio, Ecologico = @Ecologico, CodFacturaT = @CodFacturaT, CodLinea = @CodLinea WHERE CodProducto = @CodProducto`;
     new sql.Request()
         .input('CodProducto', sql.Int, CodProducto)
         .input('Nombre', sql.VarChar, Nombre)
         .input('Descripcion', sql.VarChar, Descripcion)
         .input('Precio', sql.Decimal, Precio)
         .input('Ecologico', sql.Char, Ecologico)
-        .input('CodFacturaT', sql.Int, CodFacturaT)
-        .input('CantidadP', sql.Int, CantidadP)
-        .input('PrecioT', sql.Int, PrecioT)
-        .input('CodReq', sql.Int, CodReq)
-        .input('CantProd', sql.Int, CantProd)
         .input('CodLinea', sql.Int, CodLinea)
         .query(query, (err, data) => {
             if (err) {
