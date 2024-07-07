@@ -1,5 +1,7 @@
 const express = require('express');
 
+const cors = require('cors');
+
 const app = express();
 
 const routerMultiservicios = require('./routes/Multiservicios.routes.js');
@@ -38,6 +40,10 @@ const routerActividadesPorMantenimiento = require('./routes/ActividadesPorManten
 const routerLineaSumPorProveedor = require('./routes/LineaSumPorProveedor.routes.js');
 const routerProductoPorMultiservicio = require('./routes/ProductoPorMultiservicio.routes.js');
 const routerMultiserviciosEspecializadoTipoVehiculos = require('./routes/MultiserviciosEspecializadoTipoVehiculos.routes.js');
+
+app.use(cors({
+    origin: 'http://localhost:8100'
+}));
 
 app.use(express.json());
 

@@ -32,7 +32,7 @@ router.get('/:CI', (req, res) => {
 
 router.post('/', (req, res) => {
     const { CI, Nombre, Email, TelfPrincipal, TelfSecundario } = req.body;
-    let query = `INSERT INTO Clientes VALUES (@CI, @CodDescuento, @Nombre, @Email, @TelfPrincipal, @TelfSecundario)`;
+    let query = `INSERT INTO Clientes (CI, Nombre, Email, TelfPrincipal, TelfSecundario) VALUES (@CI, @Nombre, @Email, @TelfPrincipal, @TelfSecundario)`;
     new sql.Request()
         .input('CI', sql.Int, CI)
         .input('Nombre', sql.VarChar, Nombre)

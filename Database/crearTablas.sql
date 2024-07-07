@@ -75,8 +75,12 @@ CREATE TABLE FacturasTiendas(
     FechaE DATE NOT NULL,
     Monto DECIMAL(10, 2) NOT NULL CHECK (Monto > 0),
     RIFMultiServ INT NOT NULL,
+    CICliente INT NOT NULL,
     PRIMARY KEY (CodFacturaT),
     FOREIGN KEY (RIFMultiServ) REFERENCES Multiservicios(RIF)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+    FOREIGN KEY (CICliente) REFERENCES Clientes(CI)
     ON DELETE NO ACTION
     ON UPDATE CASCADE
 )
