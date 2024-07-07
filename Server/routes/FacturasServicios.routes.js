@@ -16,52 +16,70 @@ router.get('/', (req, res) => {
 
 router.get('/:CodFacturaS', (req, res) => {
     const { CodFacturaS } = req.params;
-    new sql.Request().query(`SELECT * FROM FacturasServicios WHERE CodFacturaS = ${CodFacturaS}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send(data.recordset);
-            console.dir(data.recordset);
-        }
-    })
+    let query = `SELECT * FROM FacturasServicios WHERE CodFacturaS = @CodFacturaS`;
+    new sql.Request()
+        .input('CodFacturaS', sql.Int, CodFacturaS)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
 })
 
 router.post('/', (req, res) => {
     const { CodFacturaS, FechaE, Monto, CodVehiculo } = req.body;
-    new sql.Request().query(`INSERT INTO FacturasServicios VALUES (${CodFacturaS}, '${FechaE}', ${Monto}, '${CodVehiculo}')`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('FacturaServicio agregado');
-        }
-    })
+    let query = `INSERT INTO FacturasServicios VALUES (@CodFacturaS, @FechaE, @Monto, @CodVehiculo)`;
+    new sql.Request()
+        .input('CodFacturaS', sql.Int, CodFacturaS)
+        .input('FechaE', sql.Date, FechaE)
+        .input('Monto', sql.Decimal, Monto)
+        .input('CodVehiculo', sql.Int, CodVehiculo)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('FacturaServicio agregado');
+            }
+        })
 })
 
 router.delete('/:CodFacturaS', (req, res) => {
     const { CodFacturaS } = req.params;
-    new sql.Request().query(`DELETE FROM FacturasServicios WHERE CodFacturaS = ${CodFacturaS}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('FacturaServicio eliminado');
-        }
-    })
+    let query = `DELETE FROM FacturasServicios WHERE CodFacturaS = @CodFacturaS`;
+    new sql.Request()
+        .input('CodFacturaS', sql.Int, CodFacturaS)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('FacturaServicio eliminado');
+            }
+        })
 })
 
 router.put('/:CodFacturaS', (req, res) => {
     const { CodFacturaS } = req.params;
     const { FechaE, Monto, CodVehiculo } = req.body;
-    new sql.Request().query(`UPDATE FacturasServicios SET FechaE = '${FechaE}, Monto = '${Monto}, CodVehiculo = '${CodVehiculo} WHERE CodFacturaS = ${CodFacturaS}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('FacturaServicio actualizado');
-        }
-    })
+    let query = `UPDATE FacturasServicios SET FechaE = @FechaE, Monto = @Monto, CodVehiculo = @CodVehiculo WHERE CodFacturaS = @CodFacturaS`;
+    new sql.Request()
+        .input('CodFacturaS', sql.Int, CodFacturaS)
+        .input('FechaE', sql.Date, FechaE)
+        .input('Monto', sql.Decimal, Monto)
+        .input('CodVehiculo', sql.Int, CodVehiculo)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('FacturaServicio actualizado');
+            }
+        })
 })
 
 module.exports = router;

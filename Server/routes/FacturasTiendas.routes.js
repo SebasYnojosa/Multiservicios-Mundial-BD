@@ -16,52 +16,70 @@ router.get('/', (req, res) => {
 
 router.get('/:CodFacturaT', (req, res) => {
     const { CodFacturaT } = req.params;
-    new sql.Request().query(`SELECT * FROM FacturasTiendas WHERE CodFacturaT = ${CodFacturaT}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send(data.recordset);
-            console.dir(data.recordset);
-        }
-    })
+    let query = `SELECT * FROM FacturasTiendas WHERE CodFacturaT = @CodFacturaT`;
+    new sql.Request()
+        .input('CodFacturaT', sql.Int, CodFacturaT)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
 })
 
 router.post('/', (req, res) => {
     const { CodFacturaT, FechaE, Monto, RIFMultiServ } = req.body;
-    new sql.Request().query(`INSERT INTO FacturasTiendas VALUES (${CodFacturaT}, '${FechaE}', ${Monto}, '${RIFMultiServ}')`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('FacturaTienda agregado');
-        }
-    })
+    let query = `INSERT INTO FacturasTiendas VALUES (@CodFacturaT, @FechaE, @Monto, @RIFMultiServ)`;
+    new sql.Request()
+        .input('CodFacturaT', sql.Int, CodFacturaT)
+        .input('FechaE', sql.Date, FechaE)
+        .input('Monto', sql.Decimal, Monto)
+        .input('RIFMultiServ', sql.Int, RIFMultiServ)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('FacturaTienda agregado');
+            }
+        })
 })
 
 router.delete('/:CodFacturaT', (req, res) => {
     const { CodFacturaT } = req.params;
-    new sql.Request().query(`DELETE FROM FacturasTiendas WHERE CodFacturaT = ${CodFacturaT}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('FacturaTienda eliminado');
-        }
-    })
+    let query = `DELETE FROM FacturasTiendas WHERE CodFacturaT = @CodFacturaT`;
+    new sql.Request()
+        .input('CodFacturaT', sql.Int, CodFacturaT)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('FacturaTienda eliminado');
+            }
+        })
 })
 
 router.put('/:CodFacturaT', (req, res) => {
     const { CodFacturaT } = req.params;
     const { FechaE, Monto, RIFMultiServ } = req.body;
-    new sql.Request().query(`UPDATE FacturasTiendas SET FechaE = '${FechaE}, Monto = '${Monto}, RIFMultiServ = '${RIFMultiServ} WHERE CodFacturaT = ${CodFacturaT}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('FacturaTienda actualizado');
-        }
-    })
+    let query = `UPDATE FacturasTiendas SET FechaE = @FechaE, Monto = @Monto, RIFMultiServ = @RIFMultiServ WHERE CodFacturaT = @CodFacturaT`;
+    new sql.Request()
+        .input('CodFacturaT', sql.Int, CodFacturaT)
+        .input('FechaE', sql.Date, FechaE)
+        .input('Monto', sql.Decimal, Monto)
+        .input('RIFMultiServ', sql.Int, RIFMultiServ)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('FacturaTienda actualizado');
+            }
+        })
 })
 
 module.exports = router;

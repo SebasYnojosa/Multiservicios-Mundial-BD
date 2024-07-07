@@ -16,52 +16,66 @@ router.get('/', (req, res) => {
 
 router.get('/:CodLinea', (req, res) => {
     const { CodLinea } = req.params;
-    new sql.Request().query(`SELECT * FROM LineasSuministros WHERE CodLinea = ${CodLinea}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send(data.recordset);
-            console.dir(data.recordset);
-        }
-    })
+    let query = `SELECT * FROM LineasSuministros WHERE CodLinea = @CodLinea`;
+    new sql.Request()
+        .input('CodLinea', sql.Int, CodLinea)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send(data.recordset);
+                console.dir(data.recordset);
+            }
+        })
 })
 
 router.post('/', (req, res) => {
     const { CodLinea, Descripcion } = req.body;
-    new sql.Request().query(`INSERT INTO LineasSuministros VALUES (${CodLinea}, '${Descripcion}')`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('LineaSuministro agregado');
-        }
-    })
+    let query = `INSERT INTO LineasSuministros VALUES (@CodLinea, @Descripcion)`;
+    new sql.Request()
+        .input('CodLinea', sql.Int, CodLinea)
+        .input('Descripcion', sql.VarChar, Descripcion)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('LineaSuministro agregado');
+            }
+        })
 })
 
 router.delete('/:CodLinea', (req, res) => {
     const { CodLinea } = req.params;
-    new sql.Request().query(`DELETE FROM LineasSuministros WHERE CodLinea = ${CodLinea}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('LineaSuministro eliminado');
-        }
-    })
+    let query = `DELETE FROM LineasSuministros WHERE CodLinea = @CodLinea`;
+    new sql.Request()
+        .input('CodLinea', sql.Int, CodLinea)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('LineaSuministro eliminado');
+            }
+        })
 })
 
 router.put('/:CodLinea', (req, res) => {
     const { CodLinea } = req.params;
     const { Descripcion } = req.body;
-    new sql.Request().query(`UPDATE LineasSuministros SET Descripcion = '${Descripcion} WHERE CodLinea = ${CodLinea}`, (err, data) => {
-        if (err) {
-            console.log('Error executing query: ' + err);
-        }
-        else {
-            res.send('LineaSuministro actualizado');
-        }
-    })
+    let query = `UPDATE LineasSuministros SET Descripcion = @Descripcion WHERE CodLinea = @CodLinea`;
+    new sql.Request()
+        .input('CodLinea', sql.Int, CodLinea)
+        .input('Descripcion', sql.VarChar, Descripcion)
+        .query(query, (err, data) => {
+            if (err) {
+                console.log('Error executing query: ' + err);
+            }
+            else {
+                res.send('LineaSuministro actualizado');
+            }
+        })  
 })
 
 module.exports = router;
