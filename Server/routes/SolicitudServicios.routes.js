@@ -29,7 +29,8 @@ router.get('/:CodFicha', (req, res) => {
 
 router.post('/', (req, res) => {
     const { CodFicha, NombreResponsable, CIPersRet, NombrePersRet, CodVehiculo, Costo, CantAct } = req.body;
-    new sql.Request().query(`INSERT INTO SolicitudServicios VALUES (${CodFicha}, '${NombreResponsable}', ${CIPersRet}, '${NombrePersRet}', ${CodVehiculo}, '${Costo}', ${CantAct})`, (err, data) => {
+    new sql.Request().query(`INSERT INTO SolicitudServicios VALUES (${CodFicha}, '${NombreResponsable}', ${CIPersRet}, '${NombrePersRet}', ${CodVehiculo}, '${Costo}', ${CantAct});
+                            EXEC PROC procPonerDescuentoCliente SELECT CICliente FROM Vehiculos WHERE CodVehiculo = ${CodVehiculo}`, (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
