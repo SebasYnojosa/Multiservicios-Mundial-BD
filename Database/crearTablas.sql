@@ -182,10 +182,7 @@ CREATE TABLE Productos(
     Precio DECIMAL(10, 2) NOT NULL CHECK (Precio > 0),
     Ecologico CHAR(1) NOT NULL CHECK (Ecologico IN ('S', 'N')),
     CodLinea INT NOT NULL,
-    PRIMARY KEY (CodProducto),
-    FOREIGN KEY (CodLinea) REFERENCES LineasSuministros(CodLinea)
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE
+    PRIMARY KEY (CodProducto)
 )
 
 -- Creacion de la Tabla Requisiciones 
@@ -204,6 +201,12 @@ CREATE TABLE LineasSuministros(
     Descripcion VARCHAR(50) NOT NULL,
     PRIMARY KEY (CodLinea)
 )
+
+-- Agregar FK de linea suministros a productos
+ALTER TABLE Productos
+ADD FOREIGN KEY (CodLinea) REFERENCES LineasSuministros(CodLinea)
+ON DELETE NO ACTION
+ON UPDATE CASCADE
 
 -- FK de la Tabla Productos
 ALTER TABLE Productos
