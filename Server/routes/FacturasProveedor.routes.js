@@ -31,12 +31,11 @@ router.get('/:CodFactura', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const { CodFactura, FechaE, Monto, RIFMultiServ } = req.body;
-    let query = `INSERT INTO FacturasProveedor VALUES (@CodFactura, @FechaE, @Monto, @RIFMultiServ)`;
+    const { CodFactura, FechaE, RIFMultiServ } = req.body;
+    let query = `INSERT INTO FacturasProveedor (CodFactura, FechaE, RIFMultiServ) VALUES (@CodFactura, @FechaE, @RIFMultiServ)`;
     new sql.Request()
         .input('CodFactura', sql.Int, CodFactura)
         .input('FechaE', sql.Date, FechaE)
-        .input('Monto', sql.Decimal, Monto)
         .input('RIFMultiServ', sql.Int, RIFMultiServ)
         .query(query, (err, data) => {
             if (err) {
@@ -65,12 +64,11 @@ router.delete('/:CodFactura', (req, res) => {
 
 router.put('/:CodFactura', (req, res) => {
     const { CodFactura } = req.params;
-    const { FechaE, Monto, RIFMultiServ } = req.body;
-    let query = `UPDATE FacturasProveedor SET FechaE = @FechaE, Monto = @Monto, RIFMultiServ = @RIFMultiServ WHERE CodFactura = @CodFactura`;
+    const { FechaE, RIFMultiServ } = req.body;
+    let query = `UPDATE FacturasProveedor SET FechaE = @FechaE, RIFMultiServ = @RIFMultiServ WHERE CodFactura = @CodFactura`;
     new sql.Request()
         .input('CodFactura', sql.Int, CodFactura)
         .input('FechaE', sql.Date, FechaE)
-        .input('Monto', sql.Decimal, Monto)
         .input('RIFMultiServ', sql.Int, RIFMultiServ)
         .query(query, (err, data) => {
             if (err) {

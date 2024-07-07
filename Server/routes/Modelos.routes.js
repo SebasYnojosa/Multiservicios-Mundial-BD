@@ -33,7 +33,7 @@ router.get('/:CodMarca/:CodModelo', (req, res) => {
 
 router.post('/', (req, res) => {
     const { CodMarca, CodModelo, Descripcion, Refrigerante, AceiteMotor, Octanaje, Peso, CantPuesto, AceiteCaja } = req.body;
-    let query = `INSERT INTO Modelos VALUES (@CodMarca, @CodModelo, @Descripcion, @Refrigerante, @AceiteMotor, @Octanaje, @Peso, @CantPuesto, @AceiteCaja)`;
+    let query = `INSERT INTO Modelos (CodMarca, CodModelo, Descripcion, Refrigerante, AceiteMotor, Octanaje, Peso, CantPuesto, AceiteCaja) VALUES (@CodMarca, @CodModelo, @Descripcion, @Refrigerante, @AceiteMotor, @Octanaje, @Peso, @CantPuesto, @AceiteCaja)`;
     new sql.Request()
         .input('CodMarca', sql.Int, CodMarca)
         .input('CodModelo', sql.Int, CodModelo)

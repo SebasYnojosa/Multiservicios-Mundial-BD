@@ -31,8 +31,8 @@ router.get('/:CodOrdenC', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const { CodOrdenC, CodReq, CantidadComprar, PrecioCompra, CantidadEntregada, RIFProv, CodFacturaP } = req.body;
-    let query = `INSERT INTO OrdenesCompras VALUES (@CodOrdenC, @CodReq, @CantidadComprar, @PrecioCompra, @CantidadEntregada, @RIFProv, @CodFacturaP)`;
+    const { CodOrdenC, CodReq, CantidadComprar, CantidadEntregada, RIFProv, CodFacturaP } = req.body;
+    let query = `INSERT INTO OrdenesCompras VALUES (@CodOrdenC, @CodReq, @CantidadComprar, @CantidadEntregada, @RIFProv, @CodFacturaP)`;
     new sql.Request()
         .input('CodOrdenC', sql.Int, CodOrdenC)
         .input('CodReq', sql.Int, CodReq)

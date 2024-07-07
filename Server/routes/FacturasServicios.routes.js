@@ -32,11 +32,10 @@ router.get('/:CodFacturaS', (req, res) => {
 
 router.post('/', (req, res) => {
     const { CodFacturaS, FechaE, CodVehiculo } = req.body;
-    let query = `INSERT INTO FacturasServicios VALUES (@CodFacturaS, @FechaE, @CodVehiculo)`;
+    let query = `INSERT INTO FacturasServicios (CodFacturaS, FechaE, CodVehiculo) VALUES (@CodFacturaS, @FechaE, @CodVehiculo)`;
     new sql.Request()
         .input('CodFacturaS', sql.Int, CodFacturaS)
         .input('FechaE', sql.Date, FechaE)
-        .input('Monto', sql.Decimal, Monto)
         .input('CodVehiculo', sql.Int, CodVehiculo)
         .query(query, (err, data) => {
             if (err) {

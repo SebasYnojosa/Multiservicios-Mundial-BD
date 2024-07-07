@@ -32,12 +32,12 @@ router.get('/:CodMantenimiento', (req, res) => {
 
 router.post('/', (req, res) => {
     const { CodMantenimiento, Descripcion, CodVehiculo, FechaMant } = req.body;
-    let query = `INSERT INTO Mantenimientos VALUES (@CodMantenimiento, @Descripcion, @CodVehiculo, @FechaMant)`;
+    let query = `INSERT INTO Mantenimientos (CodMantenimiento, Descripcion, CodVehiculo, FechaMant) VALUES (@CodMantenimiento, @Descripcion, @CodVehiculo, @FechaMant)`;
     new sql.Request()
         .input('CodMantenimiento', sql.Int, CodMantenimiento)
         .input('Descripcion', sql.VarChar, Descripcion)
         .input('CodVehiculo', sql.Int, CodVehiculo)
-        .input('FechaMant', sql.Date, FechaMant)
+        .input('FechaMant', sql.DateTime, FechaMant)
         .query(query, (err, data) => {
             if (err) {
                 console.log('Error executing query: ' + err);

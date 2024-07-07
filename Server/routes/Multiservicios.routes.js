@@ -32,7 +32,7 @@ router.get('/:RIF', (req, res) => {
 
 router.post('/', (req, res) => {
     const { RIF, Nombre, Ciudad, CIEncargado } = req.body;
-    let query = `INSERT INTO Multiservicios VALUES (@RIF, @Nombre, @Ciudad, @CIEncargado)`;
+    let query = `INSERT INTO Multiservicios (RIF, Nombre, Ciudad, CIEncargado) VALUES (@RIF, @Nombre, @Ciudad, @CIEncargado)`;
     new sql.Request()
         .input('RIF', sql.Int, RIF)
         .input('Nombre', sql.VarChar, Nombre)

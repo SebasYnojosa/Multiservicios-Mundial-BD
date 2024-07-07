@@ -33,7 +33,7 @@ router.get('/:Idtipo/:RIF', (req, res) => {
 
 router.post('/', (req, res) => {
     const { Idtipo, RIF } = req.body;
-    let query = `INSERT INTO MultiserviciosEspecializadoTipoVehiculos VALUES (@Idtipo, @RIF)`;
+    let query = `INSERT INTO MultiserviciosEspecializadoTipoVehiculos (IdTipo, RIF) VALUES (@Idtipo, @RIF)`;
     new sql.Request()
         .input('Idtipo', sql.Int, Idtipo)
         .input('RIF', sql.Int, RIF)
