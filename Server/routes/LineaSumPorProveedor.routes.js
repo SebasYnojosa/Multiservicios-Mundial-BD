@@ -33,7 +33,7 @@ router.get('/:RIFProveedor/:CodLinea', (req, res) => {
 
 router.post('/', (req, res) => {
     const { RIFProveedor, CodLinea } = req.body;
-    let query = `INSERT INTO LineaSumPorProveedor VALUES (@RIFProveedor, @CodLinea)`;
+    let query = `INSERT INTO LineaSumPorProveedor (RIFProveedor, CodLinea) VALUES (@RIFProveedor, @CodLinea)`;
     new sql.Request()
         .input('RIFProveedor', sql.Int, RIFProveedor)
         .input('CodLinea', sql.Int, CodLinea)

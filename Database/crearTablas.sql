@@ -45,8 +45,6 @@ CREATE TABLE Servicios(
     TiempoAnt TIME NOT NULL,
     CIPersonal INT NOT NULL,
     RIFMultiServ INT NOT NULL,
-    CodFacturaS INT NOT NULL,
-    MontoDetalle DECIMAL(10, 2) NOT NULL
     PRIMARY KEY (CodServicio),
     FOREIGN KEY (CIPersonal) REFERENCES Personal(CI)
     ON DELETE NO ACTION

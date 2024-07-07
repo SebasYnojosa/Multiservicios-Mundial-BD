@@ -33,7 +33,7 @@ router.get('/:CodF/:CodServ', (req, res) => {
 
 router.post('/', (req, res) => {
     const { CodF, CodServ } = req.body;
-    let query = `INSERT INTO DetalleFacturasServicios VALUES (@CodF, @CodServ)`;
+    let query = `INSERT INTO DetalleFacturasServicios (CodF, CodServ) VALUES (@CodF, @CodServ)`;
     new sql.Request()
         .input('CodF', sql.Int, CodF)
         .input('CodServ', sql.Int, CodServ)

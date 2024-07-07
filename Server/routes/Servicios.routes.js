@@ -31,8 +31,8 @@ router.get('/:CodServicio', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    const { CodServicio, DescC, Monto, TiempoAnt, CIPersonal, RIFMultiServ, CodFacturaS, MontoDetalle } = req.body;
-    let query = `INSERT INTO Servicios VALUES (@CodServicio, @DescC, @Monto, @TiempoAnt, @CIPersonal, @RIFMultiServ, @CodFacturaS, @MontoDetalle)`;
+    const { CodServicio, DescC, Monto, TiempoAnt, CIPersonal, RIFMultiServ } = req.body;
+    let query = `INSERT INTO Servicios (CodServicio, DescC, Monto, TiempoAnt, CIPersonal, RIFMultiServ) VALUES (@CodServicio, @DescC, @Monto, @TiempoAnt, @CIPersonal, @RIFMultiServ)`;
     new sql.Request()
         .input('CodServicio', sql.Int, CodServicio)
         .input('DescC', sql.VarChar, DescC)
@@ -40,8 +40,6 @@ router.post('/', (req, res) => {
         .input('TiempoAnt', sql.Time, TiempoAnt)
         .input('CIPersonal', sql.Int, CIPersonal)
         .input('RIFMultiServ', sql.Int, RIFMultiServ)
-        .input('CodFacturaS', sql.Int, CodFacturaS)
-        .input('MontoDetalle', sql.Decimal, MontoDetalle)
         .query(query, (err, data) => {
             if (err) {
                 console.log('Error executing query: ' + err);
@@ -70,8 +68,8 @@ router.delete('/:CodServicio', (req, res) => {
 
 router.put('/:CodServicio', (req, res) => {
     const { CodServicio } = req.params;
-    const { DescC, Monto, TiempoAnt, CIPersonal, RIFMultiServ, CodFacturaS, MontoDetalle } = req.body;
-    let query = `UPDATE Servicios SET DescC = @DescC, Monto = @Monto, TiempoAnt = @TiempoAnt, CIPersonal = @CIPersonal, RIFMultiServ = @RIFMultiServ, CodFacturaS = @CodFacturaS, MontoDetalle = @MontoDetalle WHERE CodServicio = @CodServicio}`;
+    const { DescC, Monto, TiempoAnt, CIPersonal, RIFMultiServ } = req.body;
+    let query = `UPDATE Servicios SET DescC = @DescC, Monto = @Monto, TiempoAnt = @TiempoAnt, CIPersonal = @CIPersonal, RIFMultiServ = @RIFMultiServ WHERE CodServicio = @CodServicio}`;
     new sql.Request()
         .input('CodServicio', sql.Int, CodServicio)
         .input('DescC', sql.VarChar, DescC)
@@ -79,8 +77,6 @@ router.put('/:CodServicio', (req, res) => {
         .input('TiempoAnt', sql.Time, TiempoAnt)
         .input('CIPersonal', sql.Int, CIPersonal)
         .input('RIFMultiServ', sql.Int, RIFMultiServ)
-        .input('CodFacturaS', sql.Int, CodFacturaS)
-        .input('MontoDetalle', sql.Decimal, MontoDetalle)
         .query(query, (err, data) => {
             if (err) {
                 console.log('Error executing query: ' + err);

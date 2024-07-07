@@ -32,7 +32,7 @@ router.get('/:CodDescuento', (req, res) => {
 
 router.post('/', (req, res) => {
     const { CodDescuento, Valor, MinVisita, MaxVisita } = req.body;
-    let query = `INSERT INTO Descuentos VALUES (@CodDescuento, @Valor, @MinVisita, @MaxVisita)`;
+    let query = `INSERT INTO Descuentos (CodDescuento, Valor, MinVisita, MaxVisita) VALUES (@CodDescuento, @Valor, @MinVisita, @MaxVisita)`;
     new sql.Request()
         .input('CodDescuento', sql.Int, CodDescuento)
         .input('Valor', sql.Decimal, Valor)
