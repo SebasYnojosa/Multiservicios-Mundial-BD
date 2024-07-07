@@ -10,10 +10,7 @@ CREATE TABLE Multiservicios(
     Ciudad VARCHAR(30) NOT NULL, -- Eliminar el atributo especializacion del diagrama
     CIEncargado INT,
     FInicioEncargado DATE,
-    PRIMARY KEY (RIF),
-    FOREIGN KEY (CIEncargado) REFERENCES Personal(CI)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+    PRIMARY KEY (RIF)
 )
 
 -- Tabla de tipos de vehiculos
@@ -36,6 +33,11 @@ CREATE TABLE Personal(
     ON DELETE CASCADE
     ON UPDATE CASCADE
 )
+
+-- FK de Encargado en Multiservicios
+ALTER TABLE Multiservicios
+ADD FOREIGN KEY (CIEncargado) REFERENCES Personal(CI)
+
 
 -- Creacion de la Tabla Servicios
 CREATE TABLE Servicios(
