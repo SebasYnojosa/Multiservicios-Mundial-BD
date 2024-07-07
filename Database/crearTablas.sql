@@ -69,22 +69,6 @@ ADD FOREIGN KEY (CodFacturaS) REFERENCES FacturasServicios(CodFacturaS)
 ON DELETE NO ACTION
 ON UPDATE CASCADE
 
--- Creacion de la Tabla FacturasTienda
-CREATE TABLE FacturasTiendas(
-    CodFacturaT INT,
-    FechaE DATE NOT NULL,
-    Monto DECIMAL(10, 2) NOT NULL CHECK (Monto > 0),
-    RIFMultiServ INT NOT NULL,
-    CICliente INT NOT NULL,
-    PRIMARY KEY (CodFacturaT),
-    FOREIGN KEY (RIFMultiServ) REFERENCES Multiservicios(RIF)
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE,
-    FOREIGN KEY (CICliente) REFERENCES Clientes(CI)
-    ON DELETE NO ACTION
-    ON UPDATE CASCADE
-)
-
 -- Creacion de la Tabla Descuentos
 CREATE TABLE Descuentos(
     CodDescuento INT,
@@ -111,6 +95,22 @@ CREATE TABLE Clientes(
 	FOREIGN KEY (CodDescuento) REFERENCES Descuentos(CodDescuento)
 	ON DELETE NO ACTION
 	ON UPDATE CASCADE
+)
+
+-- Creacion de la Tabla FacturasTienda
+CREATE TABLE FacturasTiendas(
+    CodFacturaT INT,
+    FechaE DATE NOT NULL,
+    Monto DECIMAL(10, 2) NOT NULL CHECK (Monto > 0),
+    RIFMultiServ INT NOT NULL,
+    CICliente INT NOT NULL,
+    PRIMARY KEY (CodFacturaT),
+    FOREIGN KEY (RIFMultiServ) REFERENCES Multiservicios(RIF)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE,
+    FOREIGN KEY (CICliente) REFERENCES Clientes(CI)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE
 )
 
 -- Creacion de la Tabla Vehiculos
