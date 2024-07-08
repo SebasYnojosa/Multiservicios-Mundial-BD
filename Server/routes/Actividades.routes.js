@@ -3,7 +3,7 @@ var router = express.Router();
 var sql = require('../../Database/sqlConnection.js');
 
 router.get('/', (req, res) => {
-    new sql.Request().query('SELECT * FROM Actividades', (err, data) => {
+    new sql.Request().query('SELECT a.CodActividad, a.DescA, a.Costo, a.TiempoMin, s.DescC FROM Actividades a, Servicios s WHERE a.CodServicio = s.CodServicio', (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 
 router.get('/:CodServicio/:CodActividad', (req, res) => {
     const { CodServicio, CodActividad } = req.params;
-    let query = `SELECT * FROM Actividades WHERE CodServicio = @CodServicio AND CodActividad = @CodActividad`;
+    let query = `SELECT a.CodActividad, a.DescA, a.Costo, a.TiempoMin, s.DescC FROM Actividades a, Servicios s WHERE a.CodServicio = s.CodServicio AND CodServicio = @CodServicio AND CodActividad = @CodActividad`;
     new sql.Request()
         .input('CodServicio', sql.Int, CodServicio)
         .input('CodActividad', sql.Int, CodActividad)

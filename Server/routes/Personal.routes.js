@@ -3,7 +3,7 @@ var router = express.Router();
 var sql = require('../../Database/sqlConnection.js');
 
 router.get('/', (req, res) => {
-    new sql.Request().query('SELECT * FROM Personal', (err, data) => {
+    new sql.Request().query('SELECT p.CI, p.NombreC, p.Direccion, p.Telefono, p.Salario, m.Nombre, COUNT(s.CIPersonal) AS CantidadServicios FROM Personal p, Multiservicios m, Servicios s WHERE m.RIF = p.RIFMultiServ AND s.CIPersonal = p.CI GROUP BY p.CI, p.NombreC, p.Direccion, p.Telefono, p.Salario, m.Nombre', (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 
 router.get('/:CI', (req, res) => {
     const { CI } = req.params;
-    let query = `SELECT * FROM Personal WHERE CI = @CI`;
+    let query = `SELECT p.CI, p.NombreC, p.Direccion, p.Telefono, p.Salario, m.Nombre, COUNT(s.CIPersonal) AS CantidadServicios FROM Personal p, Multiservicios m, Servicios s WHERE CI = @CI AND m.RIF = p.RIFMultiServ AND s.CIPersonal = p.CI GROUP BY p.CI, p.NombreC, p.Direccion, p.Telefono, p.Salario, m.Nombre`;
     new sql.Request()
         .input('CI', sql.Int, CI)
         .query(query, (err, data) => {
