@@ -211,8 +211,6 @@ ON UPDATE CASCADE
 -- FK de la Tabla Productos
 ALTER TABLE Productos
 ADD FOREIGN KEY (CodLinea) REFERENCES LineasSuministros(CodLinea)
-ON DELETE NO ACTION
-ON UPDATE CASCADE
 
 -- Creacion de la Tabla Proveedores
 CREATE TABLE Proveedores(
