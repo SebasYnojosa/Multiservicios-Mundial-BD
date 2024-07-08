@@ -3,7 +3,7 @@ var router = express.Router();
 var sql = require('../../Database/sqlConnection.js');
 
 router.get('/', (req, res) => {
-    new sql.Request().query('SELECT s.CodServicio, s.DescC, s.Monto, s.TiempoAnt, p.NombreC, m.Nombre, COUNT(a.CodActividad) AS CantidadActividades FROM Servicios s, Personal p, Multiservicios m, Actividades a WHERE m.RIF = s.RIFMultiServ AND p.CI = s.CIPersonal AND a.CodServicio = s.CodServicio', (err, data) => {
+    new sql.Request().query('SELECT s.CodServicio, s.DescC, s.Monto, s.TiempoAnt, p.NombreC, m.Nombre, COUNT(a.CodActividad) AS CantidadActividades FROM Servicios s, Personal p, Multiservicios m, Actividades a WHERE m.RIF = s.RIFMultiServ AND p.CI = s.CIPersonal AND a.CodServicio = s.CodServicio GROUP BY s.CodServicio, s.DescC, s.Monto, s.TiempoAnt, p.NombreC, m.Nombre', (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
