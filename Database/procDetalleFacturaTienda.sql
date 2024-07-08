@@ -22,5 +22,5 @@ BEGIN
     UPDATE DetalleFacturaTienda SET PrecioT = @MontoDetalle WHERE CodF = @CodFactura AND CodP = @CodProd
 
     -- Se actualiza el monto total de la factura
-    UPDATE FacturasTiendas SET Monto = (SELECT SUM(MontoDetalle) FROM DetalleFacturaTienda WHERE CodF = @CodFactura) WHERE CodFacturaT = @CodFactura
+    UPDATE FacturasTiendas SET Monto = (SELECT SUM(@MontoDetalle) FROM DetalleFacturaTienda WHERE CodF = @CodFactura) WHERE CodFacturaT = @CodFactura
 END
