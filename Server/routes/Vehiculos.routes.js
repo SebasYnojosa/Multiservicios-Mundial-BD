@@ -3,7 +3,7 @@ var router = express.Router();
 var sql = require('../../Database/sqlConnection.js');
 
 router.get('/', (req, res) => {
-    new sql.Request().query('SELECT v.CodVehiculo, v.Placa, v.CICliente, v.FechaAdq, ma.Nombre, mo.Descripcion, t.DescripcionT FROM Vehiculos v, Marcas ma, Modelos mo, TipoVehiculos t WHERE t.Idtipo = v.Idtipo AND mo.CodModelo = v.CodModelo AND mo.CodMarca = v.CodMarca AND ma.CodMarca = v.CodMarca', (err, data) => {
+    new sql.Request().query('SELECT CodVehiculo, Placa, CICliente, FechaAdq, Nombre, Descripcion, DescripcionT FROM Vehiculos v, Marcas ma, Modelos mo, TipoVehiculos t WHERE t.Idtipo = v.Idtipo AND mo.CodModelo = v.CodModelo AND mo.CodMarca = v.CodMarca AND ma.CodMarca = v.CodMarca', (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
