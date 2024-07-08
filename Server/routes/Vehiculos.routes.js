@@ -3,7 +3,7 @@ var router = express.Router();
 var sql = require('../../Database/sqlConnection.js');
 
 router.get('/', (req, res) => {
-    new sql.Request().query('SELECT * FROM Vehiculos', (err, data) => {
+    new sql.Request().query('SELECT v.CodVehiculo, v.Placa, v.CICliente, v.FechaAdq, ma.Nombre, mo.Descripcion, t.DescripcionT FROM Vehiculos v, Marcas ma, Modelos mo, TipoVehiculos t WHERE t.Idtipo = v.Idtipo AND mo.CodModelo = v.CodModelo AND mo.CodMarca = v.CodMarca AND ma.CodMarca = v.CodMarca', (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 
 router.get('/:CodVehiculo', (req, res) => {
     const { CodVehiculo } = req.params;
-    let query = `SELECT * FROM Vehiculos WHERE CodVehiculo = @CodVehiculo`;
+    let query = `SELECT v.CodVehiculo, v.Placa, v.CICliente, v.FechaAdq, ma.Nombre, mo.Descripcion, t.DescripcionT FROM Vehiculos v, Marcas ma, Modelos mo, TipoVehiculos t WHERE CodVehiculo = @CodVehiculo AND t.Idtipo = v.Idtipo AND mo.CodModelo = v.CodModelo AND mo.CodMarca = v.CodMarca AND ma.CodMarca = v.CodMarca`;
     new sql.Request()
         .input('CodVehiculo', sql.Int, CodVehiculo)
         .query(query, (err, data) => {
