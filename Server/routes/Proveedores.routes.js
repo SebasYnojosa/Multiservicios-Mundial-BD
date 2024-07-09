@@ -3,7 +3,7 @@ var router = express.Router();
 var sql = require('../../Database/sqlConnection.js');
 
 router.get('/', (req, res) => {
-    new sql.Request().query('SELECT p.RIFProveedor, p.RazonSocial, p.TelefonoLocal, p.Contacto, p.Celular, p.Direccion, l.Descripcion, COUNT(f.CodFactura) FROM Proveedores p, LineasSuministros l, FacturasProveedor f, OrdenesCompras o WHERE l.CodLinea = p.CodLinea AND o.RIFProv = p.RIFProveedor AND o.CodFacturaP = f.CodFactura GROUP BY p.RIFProveedor, p.RazonSocial, p.TelefonoLocal, p.Contacto, p.Celular, p.Direccion, l.Descripcion', (err, data) => {
+    new sql.Request().query('SELECT p.RIFProveedor, p.RazonSocial, p.TelefonoLocal, p.Contacto, p.Celular, p.Direccion, l.Descripcion, COUNT(f.CodFactura) AS NumeroCompras FROM Proveedores p, LineasSuministros l, FacturasProveedor f, OrdenesCompras o WHERE l.CodLinea = p.CodLinea AND o.RIFProv = p.RIFProveedor AND o.CodFacturaP = f.CodFactura GROUP BY p.RIFProveedor, p.RazonSocial, p.TelefonoLocal, p.Contacto, p.Celular, p.Direccion, l.Descripcion', (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 
 router.get('/:RIFProveedor', (req, res) => {
     const { RIFProveedor } = req.params;
-    let query = `SELECT p.RIFProveedor, p.RazonSocial, p.TelefonoLocal, p.Contacto, p.Celular, p.Direccion, l.Descripcion, COUNT(f.CodFactura) FROM Proveedores p, LineasSuministros l, FacturasProveedor f, OrdenesCompras o WHERE l.CodLinea = p.CodLinea AND o.RIFProv = p.RIFProveedor AND o.CodFacturaP = f.CodFactura AND RIFProveedor = @RIFProveedor GROUP BY p.RIFProveedor, p.RazonSocial, p.TelefonoLocal, p.Contacto, p.Celular, p.Direccion, l.Descripcion`;
+    let query = `SELECT p.RIFProveedor, p.RazonSocial, p.TelefonoLocal, p.Contacto, p.Celular, p.Direccion, l.Descripcion, COUNT(f.CodFactura) AS NumeroCompras FROM Proveedores p, LineasSuministros l, FacturasProveedor f, OrdenesCompras o WHERE l.CodLinea = p.CodLinea AND o.RIFProv = p.RIFProveedor AND o.CodFacturaP = f.CodFactura AND RIFProveedor = @RIFProveedor GROUP BY p.RIFProveedor, p.RazonSocial, p.TelefonoLocal, p.Contacto, p.Celular, p.Direccion, l.Descripcion`;
     new sql.Request()
         .input('RIFProveedor', sql.Int, RIFProveedor)
         .query(query, (err, data) => {
