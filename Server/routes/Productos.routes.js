@@ -3,7 +3,7 @@ var router = express.Router();
 var sql = require('../../Database/sqlConnection.js');
 
 router.get('/', (req, res) => {
-    new sql.Request().query('SELECT * FROM Productos', (err, data) => {
+    new sql.Request().query('SELECT p.CodProducto, p.Nombre, p.Descripcion, p.Precio, p.Ecologico, l.Descripcion AS NombreLinea, COUNT(spa.CodFichaSS) * arp.Cantidad AS CantidadUsada FROM Productos p, LineasSuministros l, ActividadRequiereProducto arp, SolicitudPideActividades spa WHERE l.CodLinea = p.CodLinea AND arp.CodP = p.CodProducto AND spa.CodAct = arp.CodAct GROUP BY p.CodProducto, p.Nombre, p.Descripcion, p.Precio, p.Ecologico, l.Descripcion, arp.Cantidad', (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 
 router.get('/:CodProducto', (req, res) => {
     const { CodProducto } = req.params;
-    let query = `SELECT * FROM Productos WHERE CodProducto = @CodProducto`;
+    let query = `SELECT p.CodProducto, p.Nombre, p.Descripcion, p.Precio, p.Ecologico, l.Descripcion AS NombreLinea, COUNT(spa.CodFichaSS) * arp.Cantidad AS CantidadUsada FROM Productos p, LineasSuministros l, ActividadRequiereProducto arp, SolicitudPideActividades spa WHERE CodProducto = @CodProducto, l.CodLinea = p.CodLinea AND arp.CodP = p.CodProducto AND spa.CodAct = arp.CodAct GROUP BY p.CodProducto, p.Nombre, p.Descripcion, p.Precio, p.Ecologico, l.Descripcion, arp.Cantidad`;
     new sql.Request()
         .input('CodProducto', sql.Int, CodProducto)
         .query(query, (err, data) => {
