@@ -3,7 +3,7 @@ var router = express.Router();
 var sql = require('../../Database/sqlConnection.js');
 
 router.get('/', (req, res) => {
-    new sql.Request().query('SELECT * FROM FacturasTiendas', (err, data) => {
+    new sql.Request().query('SELECT ft.CodFacturaT, ft.FechaE, ft.Monto, m.Nombre AS Multiservicio, c.Nombre AS Cliente FROM FacturasTiendas ft, Multiservicios m, Clientes c WHERE m.RIF = ft.RIFMultiServ AND c.CI = ft.CICliente', (err, data) => {
         if (err) {
             console.log('Error executing query: ' + err);
         }
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 
 router.get('/:CodFacturaT', (req, res) => {
     const { CodFacturaT } = req.params;
-    let query = `SELECT * FROM FacturasTiendas WHERE CodFacturaT = @CodFacturaT`;
+    let query = `SELECT ft.CodFacturaT, ft.FechaE, ft.Monto, m.Nombre AS Multiservicio, c.Nombre AS Cliente, p.Nombre AS Producto FROM FacturasTiendas ft, Multiservicios m, Clientes c, DetalleFacturaTienda df, Productos p WHERE CodFacturaT = @CodFacturaT AND m.RIF = ft.RIFMultiServ AND c.CI = ft.CICliente AND df.CodF = ft.CodFacturaT AND p.CodProducto = df.CodP`;
     new sql.Request()
         .input('CodFacturaT', sql.Int, CodFacturaT)
         .query(query, (err, data) => {
